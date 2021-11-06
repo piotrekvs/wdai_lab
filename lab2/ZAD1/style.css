@@ -1,0 +1,61 @@
+section {
+    border: 10px solid black;
+}
+
+header {
+    background-color: lightgrey;
+    height: 80px;
+    width: 100%;
+    display: flex;
+}
+
+header > div {
+    background-color: white;
+    height: 40px;
+    width: 20%;
+    align-self: flex-end;
+    padding: 10px;
+    margin: 5px;
+}
+
+nav {
+    border: 2px solid black;
+    width: 100%;
+    height: 40px;
+    display: flex;
+}
+
+main {
+    display: flex;
+    width: 100%;
+}
+
+main > div {
+    border: 2px solid black;
+    height: 400px;
+}
+
+#left_col_div {
+    width: 20%;
+}
+
+#middle_col_div {
+    width: 65%;
+}
+
+#right_col_div {
+    width: 15%;
+}
+
+footer {
+    background-color: lightgrey;
+    width: auto;
+    height: 40px;
+    padding: 10px;
+}
+
+@media (max-width: 800px) {
+    #right_col_div {
+        width: 100%;
+    }
+}
