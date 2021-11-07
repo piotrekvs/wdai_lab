@@ -1,0 +1,32 @@
+body {
+    font-family: sans-serif;
+}
+
+.box {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    border: 2px solid lightskyblue;
+    padding: 10px;
+    height: 50vh
+}
+
+.box * {
+    margin: 5px;
+    border: 2px solid lightskyblue;
+    border-radius: 10px;
+    width: 15vw;
+    text-align: center;
+}
+
+.box :nth-child(1) {
+    align-self: stretch;
+}
+.box :nth-child(2), :nth-child(4) {
+    justify-content: flex-start;
+    height: 33%;
+}
+.box :nth-child(3) {
+    align-self: center;
+    height: 33%;
+} 

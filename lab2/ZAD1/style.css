@@ -1,5 +1,8 @@
-section {
-    border: 10px solid black;
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    padding: 10px;
+    border: 8px solid black;
 }
 
 header {
@@ -20,31 +23,9 @@ header > div {
 
 nav {
     border: 2px solid black;
-    width: 100%;
+    border-bottom: 0;
     height: 40px;
     display: flex;
-}
-
-main {
-    display: flex;
-    width: 100%;
-}
-
-main > div {
-    border: 2px solid black;
-    height: 400px;
-}
-
-#left_col_div {
-    width: 20%;
-}
-
-#middle_col_div {
-    width: 65%;
-}
-
-#right_col_div {
-    width: 15%;
 }
 
 footer {
@@ -54,8 +35,42 @@ footer {
     padding: 10px;
 }
 
-@media (max-width: 800px) {
-    #right_col_div {
-        width: 100%;
+/* zadanie: */
+
+main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 50vh;
+}
+
+main #col1, #col3 {
+    border: 2px solid black;
+    flex: 1;
+}
+
+main #col2 {
+    border: 2px solid black;
+    flex: 3;
+}
+
+@media (max-width: 1000px) {
+    main {
+        flex-wrap: wrap;
+    }
+    main #col3 {
+        flex-basis: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        flex-direction: column;
+    }
+    main #col3 {
+        flex: 1;
+    }
+    header > div {
+        display: none;
     }
 }
