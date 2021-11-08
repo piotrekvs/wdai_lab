@@ -1,0 +1,150 @@
+body {
+    font-family: sans-serif;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+}
+
+.container,.card, .card-front, .card-back{
+    width: 350px;
+    height: 600px;
+}
+
+.container{
+    margin: 40px;
+}
+
+.card {
+    box-shadow: 4px 8px 16px 6px gray;
+    transition: 0.5s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.card-front-top {
+    overflow: hidden;
+    width: 100%;
+    height: 300px;
+    position: relative;
+}
+
+.card-front-top h1 {
+    display: inline-block;
+    color: white;
+    font-size: xx-large;
+    font-weight: 100;
+    padding: 0.5em;
+    margin: 0;
+    box-shadow: 2px 2px 16px 1px white inset;
+}
+
+.card-front-top > div:first-child {
+    bottom: 10px;
+    position: absolute;
+    z-index: 1;
+    opacity: 0.9;
+    text-align: end;
+}
+
+.card-front-top > div:last-child {
+    position: relative;
+    transform: translate(-50px, -50px) rotate(-7deg);
+    height: 320px;
+    width: 420px;
+}
+
+.card-front-top img {
+    opacity: 0.4;
+    max-height: 100%;
+    filter: brightness(150%) contrast(150%) saturate(0);
+}
+
+.card-front-body {
+    text-align: center;
+    padding: 40px;
+}
+
+.card-front-body > p {
+    margin: 0;
+    padding: 0.7em;
+    border-bottom: 1px solid lightgrey;
+}
+
+/* colors */
+
+#title1 h1,
+#pic1,
+#flip1 {
+    background-color: orange;
+}
+
+#title2 h1,
+#pic2,
+#flip2 {
+    background-color: rgb(122, 200, 0);
+}
+
+/* back */
+
+.card-back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.card-back .card-back-text {
+    margin-top: 100px;
+    color: white;
+    text-align: center;
+}
+
+.card-back .card-back-text > h2 {
+    font-weight: 100;
+    font-size: x-large;
+}
+
+.card-back .card-back-text > h1 {
+    margin: 20px;
+    font-size: xxx-large;
+    font-weight: 100;
+}
+
+.card-back .card-back-button {
+    background-color: white;
+    padding: 16px;
+    border-radius: 24px 24px;
+    margin-bottom: 100px;
+    color: gray;
+    font-size: large;
+    font-weight: 100;
+}
+
+/* animation */
+
+.container {
+    perspective: 1000px;
+}
+
+.container:hover .card {
+    transform: rotateY(-180deg);
+}
+
+.card-front,
+.card-back {
+    backface-visibility: hidden;
+}
+
+.card-front {
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    transform: rotateY(-180deg);
+}
+

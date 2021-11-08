@@ -1,0 +1,102 @@
+body {
+    font-family: sans-serif;
+    background-color: ghostwhite;
+}
+
+.container {
+    margin: 50px;
+}
+
+/* general menu design settings */
+
+.menu {
+    display: block;
+    width: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    list-style: none;
+}
+
+.menu a {
+    text-decoration: none;
+}
+
+.menu-item {
+    border-top: 2px solid chocolate;
+    overflow: hidden;
+}
+
+.menu-item:first-child {
+    border-top: none;
+}
+
+.menu-button {
+    display: block;
+    padding: 16px;
+    background-color: coral;
+    color: white;
+    position: relative;
+}
+
+.menu-button::before {
+    /* arrow-down on button */
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 12px solid transparent;
+    border-top: 12px solid coral;
+    right: 16px;
+    bottom: -24px;
+    z-index: 1;
+}
+
+/* general submenu design settings */
+
+.submenu {
+    background: darkblue;
+    overflow: hidden;
+    transition: max-height 0.5s;
+    max-height: 0;
+}
+
+.menu-item:target > .submenu {
+    max-height: 12em;
+}
+
+.submenu a {
+    display: block;
+    position: relative;
+    padding: 16px;
+    color: white;
+    font-size: medium;
+    border-bottom: 1px solid blue;
+    z-index: 0;
+}
+
+.submenu a:last-child {
+    border-bottom: none;
+}
+
+.submenu a::before {
+    content: "";
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* submenu hover */
+
+.submenu a:hover::before {
+    /* arrow-right on submenu */
+    position: absolute;
+    height: 0;
+    left: 0;
+    top: 0;
+    opacity: 1;
+    border: calc((1em + 16px + 16px) / 2) solid transparent;
+    border-left: 8px solid ghostwhite;
+}
+
+.submenu a:hover {
+    background: linear-gradient(darkblue 0%, darkblue 50%, royalblue 50%, royalblue 100%);
+}

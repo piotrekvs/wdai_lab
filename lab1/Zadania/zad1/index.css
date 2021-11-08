@@ -1,0 +1,66 @@
+#akapit1 {
+    background-color: yellowgreen;
+}
+
+#akapit2 {
+    background-color: coral;
+    width: 400pt;
+    height: 200pt;
+    font-size: 15pt;
+    border: 10px;
+    border-style: solid;
+    border-color: green;
+    padding: 1em;
+    margin: 20pt;
+}
+
+#akapit3 {
+    background-color: yellow;
+    width: 400pt;
+    height: 100pt;
+    overflow: scroll;
+}
+
+#akapit4 {
+    background-color: aqua;
+}
+
+#table1 {
+    width: 80%;
+}
+
+.t1_title_bar {
+    background-color: cadetblue;
+    height: 50px;
+}
+
+.t1row_a {
+    background-color: aqua;
+    height: 50px;
+}
+
+.t1row_b {
+    background-color: rgb(163, 238, 238);
+    height: 50px;
+}
+
+.dh {
+    border-bottom: 4px solid white;
+}
+
+#table2 {
+    width: 80%;
+    height: 200px;
+    border: 4px solid black;
+    border-collapse: collapse;
+}
+
+#t2_header>th {
+    border: 4px solid black;
+    background-color: rgb(87, 87, 87);
+}
+
+.t2_rows>td {
+    border: 4px solid black;
+    background-color: rgb(160, 160, 160);
+}
