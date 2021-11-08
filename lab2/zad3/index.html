@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" media="screen" type="text/css" href="style.css" />
+        <title>Document</title>
+    </head>
+    <body>
+        <section>
+            <!-- Using picture tag in 1-4 images to prevent browser cashing -->
+            <figure class="col1">
+                <picture>
+                    <source media="(min-width:1920px)" srcset="resources/1920w/picture1.jpg" />
+                    <source media="(min-width:1280px)" srcset="resources/1280w/picture2.jpg" />
+                    <source media="(min-width:960px)" srcset="resources/960w/picture1.jpg" />
+                    <source srcset="resources/480w/picture2.jpg" />
+                    <img src="resources/1280w/picture2.jpg" alt="Image" />
+                </picture>
+                <figcaption>This is a picture</figcaption>
+            </figure>
+            <figure class="col2">
+                <picture>
+                    <source media="(min-width:1920px)" srcset="resources/1920w/picture3.jpg" />
+                    <source media="(min-width:1280px)" srcset="resources/1280w/picture4.jpg" />
+                    <source media="(min-width:960px)" srcset="resources/960w/picture3.jpg" />
+                    <source srcset="resources/480w/picture4.jpg" />
+                    <img src="resources/1280w/picture4.jpg" alt="Image" />
+                </picture>
+                <figcaption>This is a picture</figcaption>
+            </figure>
+            <figure class="col3">
+                <picture>
+                    <source media="(min-width:1920px)" srcset="resources/1920w/picture5.jpg" />
+                    <source media="(min-width:1280px)" srcset="resources/1280w/picture6.jpg" />
+                    <source media="(min-width:960px)" srcset="resources/960w/picture5.jpg" />
+                    <source srcset="resources/480w/picture6.jpg" />
+                    <img src="resources/1280w/picture6.jpg" alt="Image" />
+                </picture>
+                <figcaption>This is a picture</figcaption>
+            </figure>
+
+            <figure class="col1">
+                <picture>
+                    <source media="(min-width:1920px)" srcset="resources/1920w/picture7.jpg" />
+                    <source media="(min-width:1280px)" srcset="resources/1280w/picture8.jpg" />
+                    <source media="(min-width:960px)" srcset="resources/960w/picture7.jpg" />
+                    <source srcset="resources/480w/picture8.jpg" />
+                    <img src="resources/1280w/picture8.jpg" alt="Image" />
+                </picture>
+                <figcaption>This is a picture</figcaption>
+            </figure>
+
+            <!-- Using only img tag for other images to take advantage of cashing -->
+
+            <figure class="col2">
+                <img
+                    src="resources/1280w/picture9.jpg"
+                    srcset="
+                        resources/480w/picture9.jpg   480w,
+                        resources/960w/picture9.jpg   960w,
+                        resources/1280w/picture9.jpg 1280w,
+                        resources/1920w/picture9.jpg 1920w
+                    "
+                    alt="Image"
+                />
+                <figcaption>This is a picture</figcaption>
+            </figure>
+            <figure class="col3">
+                <img
+                    src="resources/1280w/picture10.jpg"
+                    srcset="
+                        resources/480w/picture10.jpg   480w,
+                        resources/960w/picture10.jpg   960w,
+                        resources/1280w/picture10.jpg 1280w,
+                        resources/1920w/picture10.jpg 1920w
+                    "
+                    alt="Image"
+                />
+                <figcaption>This is a picture</figcaption>
+            </figure>
+
+            <figure class="col1">
+                <img
+                    src="resources/1280w/picture11.jpg"
+                    srcset="
+                        resources/480w/picture11.jpg   480w,
+                        resources/960w/picture11.jpg   960w,
+                        resources/1280w/picture11.jpg 1280w,
+                        resources/1920w/picture11.jpg 1920w
+                    "
+                    alt="Image"
+                />
+                <figcaption>This is a picture</figcaption>
+            </figure>
+            <figure class="col2">
+                <img
+                    src="resources/1280w/picture12.jpg"
+                    srcset="
+                        resources/480w/picture12.jpg   480w,
+                        resources/960w/picture12.jpg   960w,
+                        resources/1280w/picture12.jpg 1280w,
+                        resources/1920w/picture12.jpg 1920w
+                    "
+                    alt="Image"
+                />
+                <figcaption>This is a picture</figcaption>
+            </figure>
+            <figure class="col3">
+                <img
+                    src="resources/1280w/picture13.jpg"
+                    srcset="
+                        resources/480w/picture13.jpg   480w,
+                        resources/960w/picture13.jpg   960w,
+                        resources/1280w/picture13.jpg 1280w,
+                        resources/1920w/picture13.jpg 1920w
+                    "
+                    alt="Image"
+                />
+                <figcaption>This is a picture</figcaption>
+            </figure>
+        </section>
+    </body>
+</html>
