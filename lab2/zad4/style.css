@@ -1,3 +1,63 @@
 body {
     font-family: sans-serif;
 }
+
+section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.city-card {
+    overflow: hidden;
+    display: block;
+    margin: 1%;
+    /* border: 1px solid black; */
+    border-radius: 1em;
+    width: 20em;
+    box-shadow: 4px 8px 16px 6px gray;
+}
+
+.city-card > .card-img-container {
+    position: relative;
+    overflow: hidden;
+    height: calc(20em * 9 / 16);
+}
+
+.city-card > .card-img-container > img {
+    position: absolute;
+    display: block;
+    width: 100%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.city-card .card-info,
+.city-card .card-footer {
+    padding: 12px;
+}
+
+.city-card .card-info > h1 {
+    font-size: x-large;
+    line-height: 0.4em;
+}
+
+.city-card .card-info > h2 {
+    font-size: medium;
+    color: orangered;
+}
+
+.city-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.city-card .card-footer > button {
+    background-color: orangered;
+    color: ghostwhite;
+    font-size: medium;
+    border: 0;
+    padding: 0.8em;
+}

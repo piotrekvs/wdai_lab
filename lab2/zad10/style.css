@@ -5,6 +5,7 @@ body {
 section {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .container,.card, .card-front, .card-back{

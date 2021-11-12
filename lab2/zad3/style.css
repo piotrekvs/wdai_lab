@@ -1,6 +1,15 @@
+body {
+    font-family: sans-serif;
+}
+
 section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+section > figure > figcaption {
+    text-align: center;
+    padding: 0.6em;
 }
 
 section img {

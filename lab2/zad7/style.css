@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+nav > #logo {
+    float: left;
+    font-size: large;
+    padding: 1em;
+    background-color: greenyellow;
+}
+
+nav > .h-menu {
+    float: right;
+    display: flex;
+}
+
+nav > .h-menu > a {
+    padding: 1em;
+    background-color: darkgreen;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+nav > .h-menu > a:hover, nav > .v-menu > a:hover {
+    background-color: green;
+}
+
+nav > .menu-checkbox {
+    display: none;
+    float: right;
+}
+
+nav > .menu-checkbox:checked ~ .v-menu {
+    display: flex;
+}
+
+nav > .v-menu {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+}
+
+nav > .v-menu > a {
+    padding: 1em;
+    background-color: darkgreen;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+
+
+nav > .animated-icon {
+    display:  none;
+    float: right;
+    padding: 1em;
+    width: 24px;
+    height: 24px;
+    transition: all 0.2s;
+}
+
+nav > .animated-icon div {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: black;
+    margin: 4px;
+    transition: all 0.5s;
+}
+
+#hamburger:checked ~ .animated-icon :nth-child(1) {
+    transform: rotate(45deg) translate(0px, 8px);
+}
+
+#hamburger:checked ~ .animated-icon :nth-child(2) {
+    opacity: 0;
+}
+
+#hamburger:checked ~ .animated-icon :nth-child(3) {
+    transform: rotate(-45deg) translate(0px, -8px);
+}
+
+@media screen and (max-width: 800px) {
+    nav > .h-menu a {
+        display: none;
+    }
+
+    nav > .v-menu a {
+        display: block;
+    }
+
+    nav > .animated-icon {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 801px) {
+    nav > .v-menu a {
+        display: none;
+    }
+}
