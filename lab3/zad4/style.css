@@ -1,0 +1,8 @@
+* {
+    font-family: sans-serif;
+}
+div > p {
+    display: inline;
+    margin-left: 1em;
+    margin-right: 5em;
+}

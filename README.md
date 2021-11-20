@@ -24,3 +24,10 @@ https://unicode-table.com/pl/sets/
 
 https://www.iloveimg.com/resize-image#resize-options,pixels
 https://promo.com/tools/image-resizer/
+
+## Html snippets
+
+```html
+<link rel="stylesheet" media="screen" type="text/css" href="style.css" />
+<script type="text/javascript" src="script.js" defer></script>
+```
