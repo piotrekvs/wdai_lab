@@ -1,0 +1,23 @@
+body {
+    text-align: center;
+    font-family: sans-serif;
+}
+
+#baloon-container {
+    cursor: default;
+    display: inline-block;
+}
+
+#ctx-menu {
+    position: fixed;
+    border-radius: 4px;
+    padding: 1em 2em;
+    z-index: 10;
+    color: whitesmoke;
+    background-color: black;
+    display: none;
+}
+
+#ctx-menu.visible {
+    display: block;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link rel="stylesheet" media="screen" type="text/css" href="style.css" />
+        <script type="text/javascript" src="script.js" defer></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <section>
+            <div id="pb-entries"></div>
+            <form id="pb-new" class="pb-box">
+                <input
+                    type="text"
+                    name="pb-name"
+                    id="pb-name"
+                    type="text"
+                    placeholder="IMIĘ I NAZWISKO"
+                />
+                <input
+                    type="text"
+                    name="pb-number"
+                    id="pb-number"
+                    type="number"
+                    placeholder="NUMER"
+                />
+                <button type="button" class="btn">Dodaj</button>
+            </form>
+        </section>
+        <template id="pb-entry-component">
+            <div class="pb-entry pb-box">
+                <div class="pb-entry-info">
+                    <h2>Name</h2>
+                    <h3>Number</h3>
+                </div>
+                <button class="pb-entry-del btn" value="xd">
+                    <span class="material-icons">delete</span>
+                </button>
+            </div>
+        </template>
+    </body>
+</html>
