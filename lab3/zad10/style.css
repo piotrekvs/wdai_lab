@@ -1,0 +1,26 @@
+body {
+    font-family: sans-serif;
+}
+
+.expand-btn {
+    border: none;
+	padding: 0;
+    background: none;
+    margin: 0;
+}
+
+.material-icons-outlined{
+    font-size: large;
+}
+
+ol {
+    list-style-type: none;
+}
+
+li {
+    padding-left: 2em;
+}
+
+#container{
+    display: flex;
+}

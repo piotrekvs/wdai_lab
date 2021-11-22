@@ -1,0 +1,74 @@
+{
+    "Samochody": [
+        "Alfa Romeo",
+        "Aston Martin",
+        "Audi",
+        "BMW",
+        "Dacia",
+        "Daewoo",
+        "Dodge",
+        "Ferrari",
+        "fiat"
+    ],
+    "Gazety": [],
+    "Hulajnogi": [
+        "Xiaomi Mi Essential",
+        "Motus Scooty",
+        "Xiaomi Mi Pro 2",
+        "SkateFlash SK Urban",
+        "Motus Pro 10"
+    ],
+    "Slodycze": [
+        "chipsy",
+        "paluszki",
+        "krakersy",
+        "chrupki",
+        "batony",
+        "lizaki",
+        "żelki",
+        "cukierki"
+    ],
+    "Soki": [
+        "Pomarańczowy",
+        "Jabłkowy",
+        "Multiwitamina",
+        "Truskawkowy",
+        "Bananowy",
+        "Pomidorowy",
+        "Marchewkowy"
+    ],
+    "Rowery": ["Scott", "Cannondale", "Trek", "GT", "KTM", "Ghost"],
+    "Napoje": [
+        "Mountain Dew",
+        "7up",
+        "Coca-Cola",
+        "Pepsi",
+        "Dr Pepper",
+        "Black",
+        "Tiger",
+        "Monster",
+        "Red Bull",
+        "Rockstar",
+        "Burn",
+        "Oshee",
+        "4Move",
+        "Powerade",
+        "Lipton",
+        "Nestea",
+        "FuzeTea",
+        "Herbapol"
+    ],
+    "Smartfony": [
+        "Samsung",
+        "Apple",
+        "Huawei",
+        "LG",
+        "Sony",
+        "Xiaomi",
+        "Lenovo",
+        "HTC",
+        "Motorola",
+        "Nokia"
+    ],
+    "Telewizory": ["Sony", "Panasonic", "Philips", "Xiaomi", "LG", "Samsung"]
+}

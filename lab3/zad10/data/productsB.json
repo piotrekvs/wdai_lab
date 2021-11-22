@@ -1,0 +1,89 @@
+{
+    "Samochody": [
+        "Alfa Romeo",
+        "Aston Martin",
+        "Audi",
+        "BMW",
+        "Bentley",
+        "Bugatti",
+        "Cadillac",
+        "Chevrolet",
+        "Citroen",
+        "Dacia",
+        "Daewoo"
+    ],
+    "Gazety": [],
+    "Hulajnogi": [
+        "Xiaomi Mi Essential",
+        "SkateFlash SK Urban",
+        "Motus Pro 10"
+    ],
+    "Slodycze": [
+        "rurki",
+        "biszkopty",
+        "czekolada",
+        "bombonierki",
+        "batony",
+        "lizaki",
+        "żelki",
+        "cukierki"
+    ],
+    "Soki": [
+        "Pomarańczowy",
+        "Jabłkowy",
+        "Multiwitamina",
+        "Pomidorowy",
+        "Marchewkowy",
+        "Grejpfrutowy",
+        "Wiśniowy",
+        "Porzeczkowy",
+        "Brzoskwiniowy"
+    ],
+    "Rowery": [
+        "Trek",
+        "GT",
+        "KTM",
+        "Ghost",
+        "Author",
+        "Merida",
+        "Felt",
+        "Orbea",
+        "Canyon",
+        "Superior",
+        "Kross",
+        "B'Twin"
+    ],
+    "Napoje": [
+        "Hellena",
+        "Sprite",
+        "Schweppes",
+        "Kinley",
+        "Mountain Dew",
+        "7up",
+        "Coca-Cola",
+        "Pepsi",
+        "Powerade",
+        "Lipton",
+        "Nestea",
+        "FuzeTea",
+        "Herbapol"
+    ],
+    "Jogurty": [
+        "Danio",
+        "Danonki",
+        "Monte",
+        "Activia",
+        "Jogobella",
+        "Actimel",
+        "Bakuś",
+        "Danone",
+        "Zott",
+        "Bakoma",
+        "Gratka",
+        "Muller",
+        "Fantasia",
+        "Milko",
+        "7 Zbóż",
+        "Jovi"
+    ]
+}

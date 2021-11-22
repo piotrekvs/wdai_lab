@@ -6,9 +6,9 @@ const pbNewElement = {
     addBtn: document.querySelector('#pb-new > button'),
 };
 
-function deletebutton() {
-    pbEntriesElement.removeChild(this.parentNode);
-}
+// function deletebutton() {
+//     pbEntriesElement.removeChild(this.parentNode);
+// }
 
 const createEntry = () => {
     const name = pbNewElement.inputName.value;
@@ -20,11 +20,11 @@ const createEntry = () => {
     const newEntry = pbEntryElement.content.cloneNode(true);
     newEntry.querySelector('.pb-entry-info > h2').textContent = name;
     newEntry.querySelector('.pb-entry-info > h3').textContent = number;
-    newEntry.querySelector('.pb-entry-del').addEventListener('click', deletebutton);
 
-    // newEntry.querySelector('.pb-entry-del').addEventListener('click', (e) => {
-    //     pbEntriesElement.removeChild(e.currentTarget.parentNode);
-    // });
+    // newEntry.querySelector('.pb-entry-del').addEventListener('click', deletebutton);
+    newEntry.querySelector('.pb-entry-del').addEventListener('click', (e) => {
+        pbEntriesElement.removeChild(e.currentTarget.parentNode);
+    });
 
     pbEntriesElement.appendChild(newEntry);
 };
