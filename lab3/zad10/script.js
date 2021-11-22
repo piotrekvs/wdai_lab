@@ -1,18 +1,4 @@
 const products = {};
-//     Gazety: [],
-//     Hulajnogi: [
-//         'Xiaomi Mi Essential',
-//         'SkateFlash SK Urban',
-//         'Motus Pro 10',
-//     ],
-//     Auta: [
-//         'Audi',
-//         'Citroen',
-//     ],
-// };
-
-// Const variables
-
 const prodMenuList = document.getElementById('prod-menu-list');
 const selectedProdList = document.getElementById('selected-prod-list');
 const prodCatTemplate = document.getElementById('prod-cat-template');
@@ -21,8 +7,8 @@ const selectedProdTemplate = document.getElementById('selected-prod-template');
 const expandIcons = { more: 'expand_more', less: 'expand_less' };
 const selectedProducts = {
     catIds: {},
-    setCatId(catId, numOf, catElement) {
-        this.catIds[catId] = { numOf, selected: 0, catElement };
+    setCatId(catId, numOf) {
+        this.catIds[catId] = { numOf, selected: 0 };
     },
     getEntryId(prodId) {
         return `entry-${prodId}`;
@@ -97,7 +83,7 @@ const addCatToMenu = (prodCat) => {
     newProdCat.querySelector('input').id = newProdCatId;
     newProdCat.querySelector('label').setAttribute('for', newProdCatId);
     newProdCat.querySelector('label').textContent = prodCat;
-    selectedProducts.setCatId(newProdCatId, products[prodCat].length, newProdCat);
+    selectedProducts.setCatId(newProdCatId, products[prodCat].length);
 
     products[prodCat].forEach((prod) => {
         const newProd = prodTemplate.content.cloneNode(true);
