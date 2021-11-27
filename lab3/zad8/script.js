@@ -20,7 +20,7 @@ document.addEventListener('keydown', (e) => {
             baloonContainer.textContent = explosiomEmoji;
         }
     } else if (e.key === 'ArrowDown' && baloonSize > minSize && baloonSize <= explosionSize) {
-        baloonSize = Math.floor(baloonSize / changeSize);
+        baloonSize = Math.max(Math.floor(baloonSize / changeSize), minSize);
         baloonContainer.style.fontSize = `${baloonSize}px`;
     }
 });
@@ -30,7 +30,7 @@ document.addEventListener('keydown', (e) => {
 baloonContainer.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     if (e.ctrlKey === true && baloonContainer.textContent === baloonEmoji) {
-        contextMenu.textContent = baloonSize.toString();
+        contextMenu.textContent = `${Math.floor(((baloonSize - minSize) / explosionSize) * 100)}%`;
         contextMenu.style.top = `${e.clientY}px`;
         contextMenu.style.left = `${e.clientX}px`;
         contextMenu.classList.add('visible');
