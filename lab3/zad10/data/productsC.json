@@ -1,18 +1,4 @@
 {
-    "Samochody": [
-        "Alfa Romeo",
-        "Aston Martin",
-        "Audi",
-        "BMW",
-        "Bentley",
-        "Bugatti",
-        "Cadillac",
-        "Chevrolet",
-        "Citroen",
-        "Dacia",
-        "Daewoo"
-    ],
-    "Gazety": [],
     "Hulajnogi": ["Xiaomi Mi Essential", "SkateFlash SK Urban", "Motus Pro 10"],
     "Slodycze": [
         "rurki",
@@ -64,16 +50,5 @@
         "FuzeTea",
         "Herbapol"
     ],
-    "Jogurty": [
-        "Danio",
-        "Danonki",
-        "Monte",
-        "Activia",
-        "Jogobella",
-        "Actimel",
-        "Bakuś",
-        "Danone",
-        "Zott",
-        "Bakoma"
-    ]
+    "Jogurty": ["Bakoma", "Gratka", "Muller", "Fantasia", "Milko", "7 Zbóż", "Jovi"]
 }

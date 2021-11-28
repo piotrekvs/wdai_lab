@@ -166,8 +166,10 @@ const fetchData = (url) => (fetch(url)
 const getData = async () => {
     const urlA = 'http://localhost:8080/productsA';
     const urlB = 'http://localhost:8080/productsB';
+    const urlC = 'http://localhost:8080/productsC';
     await fetchData(urlA);
     await fetchData(urlB);
+    await fetchData(urlC);
     createMenu();
 };
 
