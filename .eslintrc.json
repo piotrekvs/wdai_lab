@@ -15,6 +15,7 @@
         "no-plusplus": 0,
         "no-alert": 0,
         "no-param-reassign": 0,
-        "max-len": ["error", 100]
+        "max-len": ["error", 100],
+        "no-unused-expressions": ["error", { "allowTernary": true }]
     }
 }

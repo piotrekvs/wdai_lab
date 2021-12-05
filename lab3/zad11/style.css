@@ -1,0 +1,82 @@
+* {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+body {
+    background-color: black;
+}
+
+#canvas-background, #canvas-main, #div-ui {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.game-resolution-qhd {
+    width: 960px;
+    height: 540px;
+}
+
+.game-resolution-hd {
+    width: 1280px;
+    height: 720px;
+}
+
+.game-resolution-hdp {
+    width: 1600px;
+    height: 900px;
+}
+
+#canvas-background {
+    border: 4px solid black;
+    background-image: url('images/board-bg.jpg');
+    background-size: 100% auto;
+    z-index: 1;
+}
+
+#canvas-main {
+    z-index: 2;
+}
+
+#div-ui {
+    z-index: 3;
+    cursor: crosshair;
+}
+
+.div-ui-menu-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.div-ui-hide {
+    display: none !important;
+}
+
+.div-ui-ingame-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2em;
+    user-select: none;
+}
+
+.div-ui-ingame {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.menu-btn {
+    margin: 2em;
+}
+
+.div-ui-ingame > span {
+    margin: 2em;
+    color: white;
+    font-weight: bold;
+}

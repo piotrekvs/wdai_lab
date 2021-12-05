@@ -1,1 +1,37 @@
-<!-- js css sprite -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script type="text/javascript" src="script.js" defer></script>
+        <link rel="stylesheet" media="screen" type="text/css" href="style.css" />
+        <title>Document</title>
+    </head>
+    <body>
+        <canvas id="canvas-background" class="game-resolution-qhd"></canvas>
+        <canvas id="canvas-main" class="game-resolution-qhd"></canvas>
+        <div id="div-ui" class="game-resolution-qhd div-ui-menu-layout">
+            <div id="div-ui-menu" class="div-ui-menu-layout">
+                <button id="menu-start-game" class="menu-btn">START GAME</button>
+                <button id="menu-ranking" class="menu-btn">RANKING</button>
+                <div>
+                    <button id="menu-resolution-down" class="menu-btn">RESOLUTION -</button>
+                    <span id="menu-resolution-show">540p</span>
+                    <button id="menu-resolution-up" class="menu-btn">RESOLUTION +</button>
+                </div>
+            </div>
+
+            <div id="div-ui-ranking">
+                <button id="ranking-close" class="menu-btn">CLOSE RANKING</button>
+            </div>
+
+            <div id="div-ui-ingame" class="div-ui-ingame">
+                <button id="ingame-menu" class="menu-btn">MENU</button>
+                <span id="ingame-player-name">player_name</span>
+                <span id="ingame-lives">lives</span>
+                <span id="ingame-points">points</span>
+            </div>
+        </div>
+    </body>
+</html>
