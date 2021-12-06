@@ -7,7 +7,9 @@ body {
     background-color: black;
 }
 
-#canvas-background, #canvas-main, #div-ui {
+#canvas-background,
+#canvas-main,
+#div-ui {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -31,7 +33,7 @@ body {
 
 #canvas-background {
     border: 4px solid black;
-    background-image: url('images/board-bg.jpg');
+    background-image: url("images/board-bg.jpg");
     background-size: 100% auto;
     z-index: 1;
 }
@@ -42,7 +44,6 @@ body {
 
 #div-ui {
     z-index: 3;
-    cursor: crosshair;
 }
 
 .div-ui-menu-layout {
@@ -60,8 +61,8 @@ body {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 2em;
     user-select: none;
+    cursor: crosshair;
 }
 
 .div-ui-ingame {
