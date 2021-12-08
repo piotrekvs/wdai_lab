@@ -309,7 +309,8 @@ window.addEventListener('load', () => {
             hideRanking();
             showMenu();
         });
-        document.getElementById('ingame-menu').addEventListener('click', () => {
+        document.getElementById('ingame-menu').addEventListener('mousedown', (e) => {
+            e.stopPropagation();
             isGameOver = true;
         });
     }
