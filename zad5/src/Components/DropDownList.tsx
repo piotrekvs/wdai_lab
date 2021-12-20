@@ -14,7 +14,7 @@ const DropDownList = (props: Props) => (
         onChange={props.onSelection}
     >
         {props.values.map((val) => (
-            <option value={val}>{val}</option>
+            <option value={val} key={val}>{val}</option>
         ))}
     </select>
 );

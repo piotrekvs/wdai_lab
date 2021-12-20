@@ -109,5 +109,7 @@ https://andrebnassis.medium.com/setting-eslint-on-a-react-typescript-project-202
 
 ## ES7 react snippets
 rce - nowy komponent klasowy
+
 rfce - nowy komponent funkcyjny
+
 rafce - nowy komponent funkcyjny strzałkowy

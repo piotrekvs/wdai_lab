@@ -11,6 +11,7 @@ const ColorSelector = (props: Props) => (
     <div className="color-selector-wrapper">
         {props.values.map((color) => (
             <div
+                key={color}
                 className="color-selector"
                 style={{
                     backgroundColor: color,
