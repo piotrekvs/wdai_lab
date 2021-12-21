@@ -1,0 +1,12 @@
+.App {
+    margin: 10px auto;
+    border: 2px solid black;
+    border-radius: 16px;
+    padding: 8px;
+    padding-bottom: 16px;
+    width: 25rem;
+    height: 30rem;    
+    display: grid;
+    grid-template-rows: 30% 70%;
+    gap: 8px;
+}
