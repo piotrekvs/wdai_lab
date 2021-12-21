@@ -78,6 +78,7 @@ https://andrebnassis.medium.com/setting-eslint-on-a-react-typescript-project-202
     ],
     "rules": {
         "max-len": ["error", 100],
+        "no-unused-expressions": ["error", { "allowTernary": true }],
         "import/extensions": 0,
         "import/no-unresolved": 0,
         "jsx-a11y/no-static-element-interactions": 0,
@@ -109,7 +110,5 @@ https://andrebnassis.medium.com/setting-eslint-on-a-react-typescript-project-202
 
 ## ES7 react snippets
 rce - nowy komponent klasowy
-
-rfce - nowy komponent funkcyjny
 
 rafce - nowy komponent funkcyjny strzałkowy

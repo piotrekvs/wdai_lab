@@ -22,6 +22,7 @@
     ],
     "rules": {
         "max-len": ["error", 100],
+        "no-unused-expressions": ["error", { "allowTernary": true }],
         "import/extensions": 0,
         "import/no-unresolved": 0,
         "jsx-a11y/no-static-element-interactions": 0,
