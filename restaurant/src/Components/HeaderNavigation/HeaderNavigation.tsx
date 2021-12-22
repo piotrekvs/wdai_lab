@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Badge,
     Container, Nav, Navbar, NavDropdown,
 } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
@@ -9,6 +10,7 @@ type Props = {
     setCurrency: (currency: string) => void;
     page: string;
     setPage: (currency: string) => void;
+    numOfOrderedDishes: number;
 }
 
 const HeaderNavigation: React.FC<Props> = (props: Props) => (
@@ -48,8 +50,13 @@ const HeaderNavigation: React.FC<Props> = (props: Props) => (
             <Nav>
                 <Nav.Link href="#cart">
                     <BsCart3 size={24} />
-                    {' '}
-                    Cart
+                    {' Cart '}
+                    <Badge
+                        bg={(props.numOfOrderedDishes >= 10 ? 'primary' : 'warning')}
+                        text={(props.numOfOrderedDishes >= 10 ? 'light' : 'dark')}
+                    >
+                        {props.numOfOrderedDishes}
+                    </Badge>
                 </Nav.Link>
             </Nav>
         </Container>

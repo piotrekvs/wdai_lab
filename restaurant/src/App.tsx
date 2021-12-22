@@ -8,12 +8,14 @@ type Props = {}
 type State = {
     currency: string;
     page: string;
+    numOfOrderedDishes: number;
 }
 
 export class App extends React.Component<Props, State> {
     state: State = {
         currency: 'euro',
         page: 'menu',
+        numOfOrderedDishes: 0,
     };
 
     render() {
@@ -24,9 +26,18 @@ export class App extends React.Component<Props, State> {
                     setCurrency={(c) => this.setState({ currency: c })}
                     page={this.state.page}
                     setPage={(p) => this.setState({ page: p })}
+                    numOfOrderedDishes={this.state.numOfOrderedDishes}
                 />
                 {this.state.page === 'home' && <HomePage />}
-                {this.state.page === 'menu' && <MenuPage currency={this.state.currency} />}
+                {this.state.page === 'menu' && (
+                    <MenuPage
+                        currency={this.state.currency}
+                        numOfOrderedDishes={this.state.numOfOrderedDishes}
+                        changeNumOfOrderedDishes={(x: number) => (
+                            this.setState((s) => ({ numOfOrderedDishes: s.numOfOrderedDishes + x }))
+                        )}
+                    />
+                )}
             </div>
         );
     }

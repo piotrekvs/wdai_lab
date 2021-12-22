@@ -7,6 +7,8 @@ import DishCardAdd from '../../Components/ProductCard/DishCardAdd';
 
 type Props = {
     currency: string;
+    numOfOrderedDishes: number;
+    changeNumOfOrderedDishes: (x: number) => void;
 };
 
 type State = {
@@ -26,7 +28,8 @@ export class MenuPage extends React.Component<Props, State> {
                     <DishCard
                         dish={dish}
                         currency={this.props.currency}
-                        currencyFactor={1}
+                        currencyFactor={this.props.currency === 'euro' ? 1 : 0.88}
+                        changeOrderedQuantity={(x) => this.props.changeNumOfOrderedDishes(x)}
                     />
                 ))}
             </div>
