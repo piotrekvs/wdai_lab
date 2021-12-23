@@ -1,20 +1,32 @@
 import React from 'react';
 import {
-    Button, Form, Modal, Row, Col, InputGroup,
+    Button, Modal, Tabs, Tab,
 } from 'react-bootstrap';
-import { Dish } from '../../Types/Types';
+import { DishInput, DishValidation } from '../../Types/Types';
+import AddDishForm1Step from './AddDishForm1Step';
+import AddDishForm2Step from './AddDishForm2Step';
+import {
+    validateDishCategory, validateDishCuisine, validateDishDescription,
+    validateDishMeal, validateDishName, validateDishPriceEuro, validateDishQuantity,
+} from './AddDishInputValidation';
 
 type Props = {
     show: boolean;
     onClose: () => void
 };
 type State = {
-    dish: Dish;
+    dish: DishInput;
+    validation: DishValidation;
+    tabActiveKey: string;
+    isStep1Valid: boolean;
+    isStep2Valid: boolean;
 };
+
+const STEP_1 = 'step1';
+const STEP_2 = 'step2';
 
 export class AddDishModal extends React.Component<Props, State> {
     state: State = {
-        // eslint-disable-next-line react/no-unused-state
         dish: {
             id: '',
             name: '',
@@ -22,11 +34,73 @@ export class AddDishModal extends React.Component<Props, State> {
             meal: '',
             category: '',
             ingredients: [],
-            quantity: 0,
-            priceEuro: 0,
+            quantity: '',
+            priceEuro: '',
             description: '',
             images: [],
         },
+        validation: { // (-1) - not used yet, 0 - invalid, 1 - valid
+            id: -1,
+            name: -1,
+            cuisine: -1,
+            meal: -1,
+            category: -1,
+            ingredients: -1,
+            quantity: -1,
+            priceEuro: -1,
+            description: -1,
+            images: -1,
+        },
+        tabActiveKey: STEP_1,
+        isStep1Valid: false,
+        isStep2Valid: false,
+    };
+
+    handleTabActiveKey = (k: string | null) => {
+        if (k !== null) {
+            this.setState({ tabActiveKey: k });
+        }
+    };
+
+    handleNextBtn = () => {
+        const validate = {
+            name: validateDishName(this.state.dish.name),
+            cuisine: validateDishCuisine(this.state.dish.cuisine),
+            meal: validateDishMeal(this.state.dish.meal),
+            category: validateDishCategory(this.state.dish.category),
+            description: validateDishDescription(this.state.dish.description),
+            quantity: validateDishQuantity(this.state.dish.quantity),
+            priceEuro: validateDishPriceEuro(this.state.dish.priceEuro),
+        };
+        let isStep1Valid = true;
+        Object.values(validate).forEach((val) => {
+            if (val === 0) isStep1Valid = false;
+        });
+        this.setState((s) => ({
+            validation: {
+                ...s.validation,
+                ...validate,
+            },
+            isStep1Valid,
+        }));
+        if (isStep1Valid) {
+            this.handleTabActiveKey(STEP_2);
+        }
+    };
+
+    handleBackBtn = () => {
+        this.handleTabActiveKey(STEP_1);
+    };
+
+    handleAddBtn = () => {
+        if (this.state.isStep1Valid && this.state.isStep2Valid) {
+            // TODO: add dish to menu
+            // this.props.onClose();
+        }
+    };
+
+    handleOnChangeValues = (key: keyof DishInput, val: string) => {
+        this.setState((s) => ({ dish: { ...s.dish, [key]: val } }));
     };
 
     render() {
@@ -43,67 +117,38 @@ export class AddDishModal extends React.Component<Props, State> {
                     <Modal.Title>Add dish</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="formName">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control type="text" placeholder="Dish name" />
-                        </Form.Group>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-3" controlId="formCuisine">
-                                    <Form.Label>Cuisine</Form.Label>
-                                    <Form.Control type="text" placeholder="ie. polish, italian" />
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="mb-3" controlId="formCategory">
-                                    <Form.Label>Category</Form.Label>
-                                    <Form.Control type="text" placeholder="ie. soup, meat" />
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="mb-3" controlId="formMeal">
-                                    <Form.Label>Meal</Form.Label>
-                                    <Form.Select aria-label="Default select example">
-                                        <option>Select type of meal</option>
-                                        <option value="1">Breakfast</option>
-                                        <option value="2">Lunch</option>
-                                        <option value="3">Dinner</option>
-                                        <option value="3">Supper</option>
-                                        <option value="3">Dessert</option>
-                                    </Form.Select>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-
-                        <Form.Group className="mb-3" controlId="formDescription">
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea" placeholder="Short description" />
-                        </Form.Group>
-
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-3" controlId="formPrice">
-                                    <Form.Label>Price</Form.Label>
-                                    <InputGroup>
-                                        <Form.Control type="number" placeholder="Price" />
-                                        <InputGroup.Text>€</InputGroup.Text>
-                                    </InputGroup>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="mb-3" controlId="formQuantity">
-                                    <Form.Label>Quantity</Form.Label>
-                                    <Form.Control type="number" placeholder="Quantity" />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-
-                        <Button variant="primary" type="submit">
-                            Add
-                        </Button>
-                    </Form>
+                    <Tabs
+                        id="controlled-tab-example"
+                        activeKey={this.state.tabActiveKey}
+                        className="mb-3"
+                    >
+                        <Tab eventKey="step1" title="Step 1" disabled>
+                            <AddDishForm1Step
+                                values={this.state.dish}
+                                onChangeValues={this.handleOnChangeValues}
+                                validation={this.state.validation}
+                            />
+                        </Tab>
+                        <Tab eventKey="step2" title="Step 2" disabled>
+                            {/* <AddDishForm2Step
+                                values={this.state.dish}
+                                onChangeValues={this.handleOnChangeValues}
+                                validation={this.state.validation}
+                            /> */}
+                        </Tab>
+                    </Tabs>
                 </Modal.Body>
+                <Modal.Footer>
+                    {this.state.tabActiveKey === STEP_1 && (
+                        <Button variant="primary" onClick={this.handleNextBtn}>Next</Button>
+                    )}
+                    {this.state.tabActiveKey === STEP_2 && (
+                        <>
+                            <Button variant="secondary" onClick={this.handleBackBtn}>Back</Button>
+                            <Button variant="primary" onClick={this.handleAddBtn}>Add Dish</Button>
+                        </>
+                    )}
+                </Modal.Footer>
             </Modal>
         );
     }
