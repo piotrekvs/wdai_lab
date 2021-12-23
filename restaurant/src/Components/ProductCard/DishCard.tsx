@@ -11,6 +11,8 @@ type Props = {
     currencyFactor: number;
     dish: Dish;
     changeOrderedQuantity: (x: number) => void;
+    borderColor: string;
+    onDelete: () => void;
 };
 type State = {
     orderedQuantity: number;
@@ -21,32 +23,43 @@ export class DishCard extends React.Component<Props, State> {
         orderedQuantity: 0,
     };
 
-    handleAddBtn(x: number) {
+    handleAddBtn = (x: number) => {
         this.setState((s) => ({ orderedQuantity: s.orderedQuantity + x }));
         this.props.changeOrderedQuantity(x);
-    }
+    };
 
-    isLittleAvailable() {
+    handleDelete = () => {
+        this.handleAddBtn(-this.state.orderedQuantity);
+        this.props.onDelete();
+    };
+
+    isLittleAvailable = () => {
         if (this.props.dish.quantity - this.state.orderedQuantity <= 0) {
             return 'bg-danger';
         } if (this.props.dish.quantity - this.state.orderedQuantity <= 3) {
             return 'bg-warning';
         }
         return 'bg-white';
-    }
+    };
 
-    displayPrice() {
+    displayPrice = () => {
         const price = ((this.props.dish.priceEuro * this.props.currencyFactor) / 100).toFixed(2);
         return `${price} ${this.props.currency === 'euro' ? '€' : '$'}`;
-    }
+    };
 
     render() {
         return (
-            <Card style={{ width: '18rem', margin: '1rem' }}>
-                <BsXLg
-                    className="position-absolute top-0 end-0 bg-danger text-white"
-                    size={24}
-                />
+            <Card
+                border={this.props.borderColor}
+                style={{ width: '18rem', margin: '1rem' }}
+            >
+                <Button
+                    className="position-absolute top-0 end-0 p-0"
+                    variant="danger"
+                    onClick={this.handleDelete}
+                >
+                    <BsXLg size={24} />
+                </Button>
                 <Card.Img height="180px" variant="top" src={this.props.dish.images[0]} />
                 <Card.Body>
                     <Card.Title>{this.props.dish.name.toUpperCase()}</Card.Title>
