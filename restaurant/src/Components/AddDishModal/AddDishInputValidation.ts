@@ -49,3 +49,20 @@ export const validateDishPriceEuro = (val: DishInput['priceEuro']): 0 | 1 => {
     }
     return 0;
 };
+
+export const validateDishIngredient = (val: string): 0 | 1 => {
+    if (/^\w+/.test(val) && val.length > 1 && val.length < 30) {
+        return 1;
+    }
+    return 0;
+};
+
+export const validateDishImage = (val: string): 0 | 1 => {
+    // eslint-disable-next-line max-len
+    const expression = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}[.|:]{1}[a-z|\d]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
+    const regex = new RegExp(expression);
+    if (val.match(regex)) {
+        return 1;
+    }
+    return 0;
+};

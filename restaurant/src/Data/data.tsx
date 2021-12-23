@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { Dish } from '../Types/Types';
 
-const dishes: Dish[] = [
+const fakeDataDishes: Dish[] = [
     {
         id: 'd0',
         name: 'Pierogi',
@@ -175,4 +175,4 @@ const dishes: Dish[] = [
     },
 ];
 
-export default dishes;
+export default fakeDataDishes;

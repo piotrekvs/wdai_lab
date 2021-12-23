@@ -1,7 +1,7 @@
 import React from 'react';
 import './MenuPage.css';
-import { Dish } from '../../Types/Types';
-import dishes from '../../Data/data';
+import { Dish, DishInput } from '../../Types/Types';
+import fakeDataDishes from '../../Data/data';
 import DishCard from '../../Components/ProductCard/DishCard';
 import DishCardAdd from '../../Components/ProductCard/DishCardAdd';
 import AddDishModal from '../../Components/AddDishModal/AddDishModal';
@@ -17,7 +17,10 @@ type State = {
     cheapestDishId: Dish['id'];
     mostExpensiveDishId: Dish['id'];
     addDishModalShow: boolean;
+    addDishModalMount: boolean
 };
+
+let dishes = fakeDataDishes;
 
 export class MenuPage extends React.Component<Props, State> {
     state: State = {
@@ -25,6 +28,7 @@ export class MenuPage extends React.Component<Props, State> {
         cheapestDishId: '',
         mostExpensiveDishId: '',
         addDishModalShow: false,
+        addDishModalMount: false,
     };
 
     componentDidMount() {
@@ -41,15 +45,31 @@ export class MenuPage extends React.Component<Props, State> {
     };
 
     handleDelete = (id: Dish['id']) => {
-        this.setState((s) => {
-            const newDishes = s.dishes.filter((dish: Dish) => dish.id !== id);
-            return { dishes: newDishes };
-        });
+        dishes = dishes.filter((dish: Dish) => dish.id !== id);
+        this.setState({ dishes });
         this.findMostLeastExpensiveDish();
     };
 
     handleAddDishBtn = () => {
-        this.setState({ addDishModalShow: true });
+        this.setState({ addDishModalShow: true, addDishModalMount: true });
+    };
+
+    handleAddNewDish = (d: DishInput) => {
+        const newDish: Dish = {
+            id: d.id,
+            name: d.name,
+            cuisine: d.cuisine,
+            meal: d.meal,
+            category: d.category,
+            ingredients: [...d.ingredients],
+            quantity: parseInt(d.quantity, 10),
+            priceEuro: Math.floor(parseFloat(d.priceEuro) * 100),
+            description: d.description,
+            images: [...d.images],
+        };
+        dishes.push(newDish);
+        this.setState({ dishes });
+        this.findMostLeastExpensiveDish();
     };
 
     findMostLeastExpensiveDish = () => {
@@ -85,10 +105,14 @@ export class MenuPage extends React.Component<Props, State> {
                         onDelete={() => this.handleDelete(dish.id)}
                     />
                 ))}
-                <AddDishModal
-                    show={this.state.addDishModalShow}
-                    onClose={() => this.setState({ addDishModalShow: false })}
-                />
+                {this.state.addDishModalMount && (
+                    <AddDishModal
+                        show={this.state.addDishModalShow}
+                        onAdd={this.handleAddNewDish}
+                        onClose={() => this.setState({ addDishModalShow: false })}
+                        onExited={() => this.setState({ addDishModalMount: false })}
+                    />
+                )}
             </div>
         );
     }
