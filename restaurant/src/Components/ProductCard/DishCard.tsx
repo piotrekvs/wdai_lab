@@ -4,7 +4,8 @@ import {
     Button, Card, ListGroup, ListGroupItem,
 } from 'react-bootstrap';
 import { BsPlusLg, BsDashLg, BsXLg } from 'react-icons/bs';
-import { Dish } from '../../Types/Types';
+import { Dish, StarsReview } from '../../Types/Types';
+import DishStarsReview from '../DishStarsReview/DishStarsReview';
 
 type Props = {
     currency: string;
@@ -13,6 +14,8 @@ type Props = {
     changeOrderedQuantity: (x: number) => void;
     borderColor: string;
     onDelete: () => void;
+    starsReview: StarsReview | undefined;
+    changeStarsReview: (id: StarsReview['id'], val: StarsReview['value']) => void
 };
 type State = {
     orderedQuantity: number;
@@ -85,26 +88,34 @@ export class DishCard extends React.Component<Props, State> {
                     </ListGroupItem>
                 </ListGroup>
                 <Card.Body>
-                    <Card.Title>{this.displayPrice()}</Card.Title>
-                    <Button
-                        className="m-1"
-                        disabled={this.state.orderedQuantity <= 0}
-                        onClick={() => this.handleAddBtn(-1)}
-                    >
-                        <BsDashLg />
-                    </Button>
-                    <Button
-                        className="m-1"
-                        disabled={this.state.orderedQuantity >= this.props.dish.quantity}
-                        onClick={() => this.handleAddBtn(1)}
-                    >
-                        <BsPlusLg />
-                    </Button>
-                    <Card.Text className="d-inline m-1">
-                        Added:
-                        {' '}
-                        {this.state.orderedQuantity}
-                    </Card.Text>
+                    <div className="d-flex justify-content-between align-items-start">
+                        <Card.Title>{this.displayPrice()}</Card.Title>
+                        <DishStarsReview
+                            starsReview={this.props.starsReview}
+                            setValue={(i) => this.props.changeStarsReview(this.props.dish.id, i)}
+                        />
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <Button
+                            className="m-1"
+                            disabled={this.state.orderedQuantity <= 0}
+                            onClick={() => this.handleAddBtn(-1)}
+                        >
+                            <BsDashLg />
+                        </Button>
+                        <Card.Text className="d-inline m-1">
+                            Added:
+                            {' '}
+                            {this.state.orderedQuantity}
+                        </Card.Text>
+                        <Button
+                            className="m-1"
+                            disabled={this.state.orderedQuantity >= this.props.dish.quantity}
+                            onClick={() => this.handleAddBtn(1)}
+                        >
+                            <BsPlusLg />
+                        </Button>
+                    </div>
                 </Card.Body>
             </Card>
         );

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import HeaderNavigation from './Components/HeaderNavigation/HeaderNavigation';
+import CartPage from './Pages/CartPage/CartPage';
 import HomePage from './Pages/HomePage/HomePage';
 import MenuPage from './Pages/MenuPage/MenuPage';
 
@@ -38,6 +39,7 @@ export class App extends React.Component<Props, State> {
                         )}
                     />
                 )}
+                {this.state.page === 'cart' && <CartPage />}
             </div>
         );
     }

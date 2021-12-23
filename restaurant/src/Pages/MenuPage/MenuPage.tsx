@@ -1,6 +1,8 @@
 import React from 'react';
 import './MenuPage.css';
-import { Dish, DishInput } from '../../Types/Types';
+import {
+    Dish, DishInput, StarsReview, StarsReviews,
+} from '../../Types/Types';
 import fakeDataDishes from '../../Data/data';
 import DishCard from '../../Components/ProductCard/DishCard';
 import DishCardAdd from '../../Components/ProductCard/DishCardAdd';
@@ -14,6 +16,7 @@ type Props = {
 
 type State = {
     dishes: Dish[];
+    starsReviews: StarsReviews;
     cheapestDishId: Dish['id'];
     mostExpensiveDishId: Dish['id'];
     addDishModalShow: boolean;
@@ -25,6 +28,7 @@ let dishes = fakeDataDishes;
 export class MenuPage extends React.Component<Props, State> {
     state: State = {
         dishes,
+        starsReviews: [],
         cheapestDishId: '',
         mostExpensiveDishId: '',
         addDishModalShow: false,
@@ -72,6 +76,19 @@ export class MenuPage extends React.Component<Props, State> {
         this.findMostLeastExpensiveDish();
     };
 
+    handleChangeStarsReview = (id: StarsReview['id'], value: StarsReview['value']) => {
+        this.setState((s) => {
+            const newStarsReviews = s.starsReviews;
+            const idx = newStarsReviews.findIndex((v) => v.id === id);
+            if (idx === -1) {
+                newStarsReviews.push({ id, value });
+            } else {
+                newStarsReviews[idx].value = value;
+            }
+            return ({ starsReviews: newStarsReviews });
+        });
+    };
+
     findMostLeastExpensiveDish = () => {
         this.setState((s) => {
             const mostExpensiveDish = { price: 0, id: '' };
@@ -103,6 +120,10 @@ export class MenuPage extends React.Component<Props, State> {
                         changeOrderedQuantity={(x) => this.props.changeNumOfOrderedDishes(x)}
                         borderColor={this.handleBorderColor(dish.id)}
                         onDelete={() => this.handleDelete(dish.id)}
+                        starsReview={this.state.starsReviews.find(
+                            (v: StarsReview) => v.id === dish.id,
+                        )}
+                        changeStarsReview={this.handleChangeStarsReview}
                     />
                 ))}
                 {this.state.addDishModalMount && (

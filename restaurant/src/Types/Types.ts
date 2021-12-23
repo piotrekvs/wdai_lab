@@ -36,3 +36,7 @@ export type DishValidation = { // (-1) - not used yet, 0 - invalid, 1 - valid
     description: -1 | 0 | 1;
     images: -1 | 0 | 1;
 };
+
+export type StarsReview = {id: Dish['id'], value: number};
+
+export type StarsReviews = StarsReview[];

@@ -48,7 +48,11 @@ const HeaderNavigation: React.FC<Props> = (props: Props) => (
                 </NavDropdown>
             </Nav>
             <Nav>
-                <Nav.Link href="#cart">
+                <Nav.Link
+                    href="#cart"
+                    active={props.page === 'cart'}
+                    onClick={() => props.setPage('cart')}
+                >
                     <BsCart3 size={24} />
                     {' Cart '}
                     <Badge
