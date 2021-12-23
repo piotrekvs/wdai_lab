@@ -40,3 +40,9 @@ export type DishValidation = { // (-1) - not used yet, 0 - invalid, 1 - valid
 export type StarsReview = {id: Dish['id'], value: number};
 
 export type StarsReviews = StarsReview[];
+
+export type CartContent = {
+    totalPriceEuro: number;
+    totalQuantity: number;
+    orders: {id: Dish['id'], quantity: Dish['quantity']}[]
+}

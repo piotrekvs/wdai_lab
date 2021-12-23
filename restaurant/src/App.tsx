@@ -4,12 +4,14 @@ import HeaderNavigation from './Components/HeaderNavigation/HeaderNavigation';
 import CartPage from './Pages/CartPage/CartPage';
 import HomePage from './Pages/HomePage/HomePage';
 import MenuPage from './Pages/MenuPage/MenuPage';
+import { CartContent } from './Types/Types';
 
 type Props = {}
 type State = {
     currency: string;
     page: string;
     numOfOrderedDishes: number;
+    cartContent: CartContent;
 }
 
 export class App extends React.Component<Props, State> {
@@ -17,6 +19,11 @@ export class App extends React.Component<Props, State> {
         currency: 'euro',
         page: 'menu',
         numOfOrderedDishes: 0,
+        cartContent: {
+            totalPriceEuro: 0,
+            totalQuantity: 0,
+            orders: [],
+        },
     };
 
     render() {
@@ -39,7 +46,7 @@ export class App extends React.Component<Props, State> {
                         )}
                     />
                 )}
-                {this.state.page === 'cart' && <CartPage />}
+                {this.state.page === 'cart' && <CartPage cartContent={this.state.cartContent} />}
             </div>
         );
     }
