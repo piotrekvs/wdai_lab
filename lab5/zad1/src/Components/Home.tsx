@@ -2,7 +2,7 @@ import React from 'react';
 import '../App.css';
 
 const Home = () => (
-    <div className="App">
+    <div>
         <h1>HOME!</h1>
     </div>
 );
