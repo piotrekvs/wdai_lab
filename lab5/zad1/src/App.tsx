@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -5,6 +6,8 @@ import Home from './Components/Home';
 import NavbarHeader from './Components/NavbarHeader';
 import Photos from './Components/Photos';
 import Posts from './Components/Posts';
+
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/';
 
 const App = () => (
     <div className="App">
