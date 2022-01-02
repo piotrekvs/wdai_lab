@@ -1,5 +1,6 @@
 import React from 'react';
 import './MenuPage.css';
+import { Route, Routes } from 'react-router-dom';
 import {
     Dish, DishInput, StarsReview, StarsReviews,
 } from '../../Types/Types';
@@ -7,6 +8,7 @@ import fakeDataDishes from '../../Data/data';
 import DishCard from '../../Components/ProductCard/DishCard';
 import DishCardAdd from '../../Components/ProductCard/DishCardAdd';
 import AddDishModal from '../../Components/AddDishModal/AddDishModal';
+import HomePage from '../HomePage/HomePage';
 
 type Props = {
     currency: string;
@@ -109,32 +111,56 @@ export class MenuPage extends React.Component<Props, State> {
 
     render() {
         return (
-            <div className="container">
-                <DishCardAdd onClick={this.handleAddDishBtn} />
-                {this.state.dishes.map((dish: Dish) => (
-                    <DishCard
-                        key={dish.id}
-                        dish={dish}
-                        currency={this.props.currency}
-                        currencyFactor={this.props.currency === 'euro' ? 1 : 0.88}
-                        changeOrderedQuantity={(x) => this.props.changeNumOfOrderedDishes(x)}
-                        borderColor={this.handleBorderColor(dish.id)}
-                        onDelete={() => this.handleDelete(dish.id)}
-                        starsReview={this.state.starsReviews.find(
-                            (v: StarsReview) => v.id === dish.id,
-                        )}
-                        changeStarsReview={this.handleChangeStarsReview}
-                    />
-                ))}
-                {this.state.addDishModalMount && (
-                    <AddDishModal
-                        show={this.state.addDishModalShow}
-                        onAdd={this.handleAddNewDish}
-                        onClose={() => this.setState({ addDishModalShow: false })}
-                        onExited={() => this.setState({ addDishModalMount: false })}
-                    />
-                )}
-            </div>
+            // <div className="container">
+            //     <DishCardAdd onClick={this.handleAddDishBtn} />
+            //     {this.state.dishes.map((dish: Dish) => (
+            //         <DishCard
+            //             key={dish.id}
+            //             dish={dish}
+            //             currency={this.props.currency}
+            //             currencyFactor={this.props.currency === 'euro' ? 1 : 0.88}
+            //             changeOrderedQuantity={(x) => this.props.changeNumOfOrderedDishes(x)}
+            //             borderColor={this.handleBorderColor(dish.id)}
+            //             onDelete={() => this.handleDelete(dish.id)}
+            //             starsReview={this.state.starsReviews.find(
+            //                 (v: StarsReview) => v.id === dish.id,
+            //             )}
+            //             changeStarsReview={this.handleChangeStarsReview}
+            //         />
+            //     ))}
+            //     {this.state.addDishModalMount && (
+            //         <AddDishModal
+            //             show={this.state.addDishModalShow}
+            //             onAdd={this.handleAddNewDish}
+            //             onClose={() => this.setState({ addDishModalShow: false })}
+            //             onExited={() => this.setState({ addDishModalMount: false })}
+            //         />
+            //     )}
+            // </div>
+            <Routes>
+                <Route
+                    path="/"
+                    element={(
+                        <DishCard
+                            key={this.state.dishes[0].id}
+                            dish={this.state.dishes[0]}
+                            currency={this.props.currency}
+                            currencyFactor={this.props.currency === 'euro' ? 1 : 0.88}
+                            changeOrderedQuantity={(x) => this.props.changeNumOfOrderedDishes(x)}
+                            borderColor={this.handleBorderColor(this.state.dishes[0].id)}
+                            onDelete={() => this.handleDelete(this.state.dishes[0].id)}
+                            starsReview={this.state.starsReviews.find(
+                                (v: StarsReview) => v.id === this.state.dishes[0].id,
+                            )}
+                            changeStarsReview={this.handleChangeStarsReview}
+                        />
+                    )}
+                />
+                <Route
+                    path="/add"
+                    element={<HomePage />}
+                />
+            </Routes>
         );
     }
 }

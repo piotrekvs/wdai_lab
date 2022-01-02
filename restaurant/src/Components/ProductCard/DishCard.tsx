@@ -4,6 +4,7 @@ import {
     Button, Card, ListGroup, ListGroupItem,
 } from 'react-bootstrap';
 import { BsPlusLg, BsDashLg, BsXLg } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 import { Dish, StarsReview } from '../../Types/Types';
 import DishStarsReview from '../DishStarsReview/DishStarsReview';
 
@@ -63,7 +64,9 @@ export class DishCard extends React.Component<Props, State> {
                 >
                     <BsXLg size={24} />
                 </Button>
-                <Card.Img height="180px" variant="top" src={this.props.dish.images[0]} />
+                <Link to="add">
+                    <Card.Img height="180px" variant="top" src={this.props.dish.images[0]} />
+                </Link>
                 <Card.Body>
                     <Card.Title>{this.props.dish.name.toUpperCase()}</Card.Title>
                     <Card.Text>{this.props.dish.description}</Card.Text>

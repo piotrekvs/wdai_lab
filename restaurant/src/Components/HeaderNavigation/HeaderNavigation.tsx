@@ -4,31 +4,28 @@ import {
     Container, Nav, Navbar, NavDropdown,
 } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 type Props = {
     currency: string;
     setCurrency: (currency: string) => void;
-    page: string;
-    setPage: (currency: string) => void;
     numOfOrderedDishes: number;
 }
 
 const HeaderNavigation: React.FC<Props> = (props: Props) => (
     <Navbar style={{ position: 'sticky', top: 0, zIndex: 10 }} bg="dark" variant="dark">
         <Container>
-            <Navbar.Brand href="#home">Restaurant</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/home">Restaurant</Navbar.Brand>
             <Nav className="me-auto">
                 <Nav.Link
-                    href="#home"
-                    active={props.page === 'home'}
-                    onClick={() => props.setPage('home')}
+                    as={Link}
+                    to="/home"
                 >
                     Home
                 </Nav.Link>
                 <Nav.Link
-                    href="#menu"
-                    active={props.page === 'menu'}
-                    onClick={() => props.setPage('menu')}
+                    as={Link}
+                    to="/menu"
                 >
                     Menu
                 </Nav.Link>
@@ -49,9 +46,8 @@ const HeaderNavigation: React.FC<Props> = (props: Props) => (
             </Nav>
             <Nav>
                 <Nav.Link
-                    href="#cart"
-                    active={props.page === 'cart'}
-                    onClick={() => props.setPage('cart')}
+                    as={Link}
+                    to="/cart"
                 >
                     <BsCart3 size={24} />
                     {' Cart '}
