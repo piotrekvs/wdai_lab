@@ -1,5 +1,5 @@
 import React from 'react';
-import { CartContent } from '../../Types/Types';
+import { CartContent } from '../../../Types/Types';
 
 type Props = {
     cartContent: CartContent;

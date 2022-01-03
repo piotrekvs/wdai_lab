@@ -9,14 +9,12 @@ import { Dish, StarsReview } from '../../Types/Types';
 import DishStarsReview from '../DishStarsReview/DishStarsReview';
 
 type Props = {
+    dish: Dish;
     currency: string;
     currencyFactor: number;
-    dish: Dish;
-    changeOrderedQuantity: (x: number) => void;
     borderColor: string;
     onDelete: () => void;
     starsReview: StarsReview | undefined;
-    changeStarsReview: (id: StarsReview['id'], val: StarsReview['value']) => void
 };
 type State = {
     orderedQuantity: number;
@@ -29,10 +27,9 @@ export class DishCard extends React.Component<Props, State> {
 
     handleAddBtn = (x: number) => {
         this.setState((s) => ({ orderedQuantity: s.orderedQuantity + x }));
-        this.props.changeOrderedQuantity(x);
     };
 
-    handleDelete = () => {
+    handleSubtractBtn = () => {
         this.handleAddBtn(-this.state.orderedQuantity);
         this.props.onDelete();
     };
@@ -60,7 +57,7 @@ export class DishCard extends React.Component<Props, State> {
                 <Button
                     className="position-absolute top-0 end-0 p-0"
                     variant="danger"
-                    onClick={this.handleDelete}
+                    onClick={this.handleSubtractBtn}
                 >
                     <BsXLg size={24} />
                 </Button>
@@ -93,10 +90,7 @@ export class DishCard extends React.Component<Props, State> {
                 <Card.Body>
                     <div className="d-flex justify-content-between align-items-start">
                         <Card.Title>{this.displayPrice()}</Card.Title>
-                        <DishStarsReview
-                            starsReview={this.props.starsReview}
-                            setValue={(i) => this.props.changeStarsReview(this.props.dish.id, i)}
-                        />
+                        <DishStarsReview starsReview={this.props.starsReview} />
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
                         <Button

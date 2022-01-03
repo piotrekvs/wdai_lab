@@ -5,7 +5,6 @@ import { StarsReview } from '../../Types/Types';
 
 type Props = {
     starsReview: StarsReview | undefined;
-    setValue: (val: StarsReview['value']) => void;
 }
 
 const DishStarsReview = (props: Props) => {
@@ -14,8 +13,7 @@ const DishStarsReview = (props: Props) => {
         <div>
             {[...Array(maxStars)].map((_, i) => (
                 (props.starsReview === undefined || props.starsReview.value < i)
-                    ? <BsStar onClick={() => props.setValue(i)} key={i} />
-                    : <BsStarFill onClick={() => props.setValue(i)} key={i} />
+                    ? <BsStar key={i} /> : <BsStarFill key={i} />
             ))}
         </div>
     );
