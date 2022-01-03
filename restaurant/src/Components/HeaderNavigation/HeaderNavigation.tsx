@@ -47,7 +47,7 @@ const HeaderNavigation: React.FC<Props> = (props: Props) => (
             <Nav>
                 <Nav.Link
                     as={Link}
-                    to="/cart"
+                    to="/menu/cart"
                 >
                     <BsCart3 size={24} />
                     {' Cart '}

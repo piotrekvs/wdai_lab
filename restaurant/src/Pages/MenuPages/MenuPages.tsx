@@ -6,6 +6,7 @@ import {
 } from '../../Types/Types';
 import CartPage from './CartPage/CartPage';
 import DishesMenuPage from './DishesMenuPage/DishesMenuPage';
+import ProductPage from './ProductPage/ProductPage';
 
 type Props = {
     currency: string;
@@ -52,11 +53,21 @@ export class MenuPages extends React.Component<Props, State> {
         return (
             <Routes>
                 <Route
-                    path="/"
+                    path=""
                     element={(
                         <DishesMenuPage
                             currency={this.props.currency}
                             dishes={this.state.dishes}
+                            starsReviews={this.state.starsReviews}
+                        />
+                    )}
+                />
+                <Route
+                    path="/product/:productId"
+                    element={(
+                        <ProductPage
+                            dishes={this.state.dishes}
+                            cartContent={this.state.cartContent}
                             starsReviews={this.state.starsReviews}
                         />
                     )}

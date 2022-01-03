@@ -61,7 +61,7 @@ export class DishCard extends React.Component<Props, State> {
                 >
                     <BsXLg size={24} />
                 </Button>
-                <Link to="add">
+                <Link to={`product/${this.props.dish.id}`}>
                     <Card.Img height="180px" variant="top" src={this.props.dish.images[0]} />
                 </Link>
                 <Card.Body>
