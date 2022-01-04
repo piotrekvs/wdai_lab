@@ -43,7 +43,5 @@ export type StarsReviews = StarsReview[];
 
 export type CartContent = {
     id: string;
-    price: number;
     quantity: number;
-    dish: Dish;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import './DishesMenuPage.css';
 import {
+    CartContent,
     Dish, DishInput, StarsReview, StarsReviews,
 } from '../../../Types/Types';
 import DishCard from '../../../Components/ProductCard/DishCard';
@@ -11,6 +12,7 @@ type Props = {
     currency: string;
     dishes: Dish[];
     starsReviews: StarsReviews;
+    cartContent: CartContent[];
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
 };
 
@@ -88,6 +90,11 @@ export class DishesMenuPage extends React.Component<Props, State> {
         );
     };
 
+    findOrderedQuantity = (id: Dish['id']) => {
+        const itemIdx = this.props.cartContent.findIndex((item) => item.id === id);
+        return itemIdx === -1 ? 0 : this.props.cartContent[itemIdx].quantity;
+    };
+
     render() {
         return (
             <div className="container">
@@ -96,6 +103,7 @@ export class DishesMenuPage extends React.Component<Props, State> {
                     <DishCard
                         key={dish.id}
                         dish={dish}
+                        orderedQuantity={this.findOrderedQuantity(dish.id)}
                         onAddToCart={this.props.onAddToCart}
                         currency={this.props.currency}
                         currencyFactor={this.props.currency === 'euro' ? 1 : 0.88}

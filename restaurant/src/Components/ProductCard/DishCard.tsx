@@ -1,4 +1,3 @@
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import {
     Button, Card, ListGroup, ListGroupItem,
@@ -10,6 +9,7 @@ import DishStarsReview from '../DishStarsReview/DishStarsReview';
 
 type Props = {
     dish: Dish;
+    orderedQuantity: Dish['quantity'];
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
     currency: string;
     currencyFactor: number;
@@ -17,18 +17,22 @@ type Props = {
     onDelete: () => void;
     starsReview: StarsReview | undefined;
 };
+
 type State = {
-    orderedQuantity: number;
+    orderedQuantity: Dish['quantity'];
 };
 
 export class DishCard extends React.Component<Props, State> {
     state: State = {
-        orderedQuantity: 0,
+        orderedQuantity: this.props.orderedQuantity,
     };
 
     handleAddBtn = (x: number) => {
-        this.setState((s) => ({ orderedQuantity: s.orderedQuantity + x }));
-        this.props.onAddToCart(this.props.dish.id, this.state.orderedQuantity);
+        this.setState((s) => {
+            const orderedQuantity = s.orderedQuantity + x;
+            this.props.onAddToCart(this.props.dish.id, orderedQuantity);
+            return { orderedQuantity };
+        });
     };
 
     handleDeleteBtn = () => {
@@ -63,7 +67,7 @@ export class DishCard extends React.Component<Props, State> {
                 >
                     <BsXLg size={24} />
                 </Button>
-                <Link to={`product/${this.props.dish.id}`}>
+                <Link to={`product/${this.props.dish.id}`} state={{ dish: this.props.dish }}>
                     <Card.Img height="180px" variant="top" src={this.props.dish.images[0]} />
                 </Link>
                 <Card.Body>

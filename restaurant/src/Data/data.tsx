@@ -29,6 +29,7 @@ const fakeDataDishes: Dish[] = [
         description: 'Traditional polish dish served with potatoes.',
         images: [
             'https://przepisna.pl/file/2019/11/kotlet-schabowy-800x477.jpg',
+            'https://przepisna.pl/file/2019/11/kotlet-schabowy-800x477.jpg',
         ],
     },
     {
@@ -43,6 +44,7 @@ const fakeDataDishes: Dish[] = [
         description: 'Traditional polish soup popular on christmas.',
         images: [
             'https://spottedlublin.pl/wp-content/uploads/2020/12/barszcz-wigilijny-czerwony-z-uszkami.jpg',
+            'https://spottedlublin.pl/wp-content/uploads/2020/12/barszcz-wigilijny-czerwony-z-uszkami.jpg',
         ],
     },
     {
@@ -56,6 +58,7 @@ const fakeDataDishes: Dish[] = [
         priceEuro: 400,
         description: 'Traditional polish soup.',
         images: [
+            'https://s3.przepisy.pl/przepisy3ii/img/variants/800x0/zupa-pomidorowa.jpg',
             'https://s3.przepisy.pl/przepisy3ii/img/variants/800x0/zupa-pomidorowa.jpg',
         ],
     },
@@ -86,6 +89,7 @@ const fakeDataDishes: Dish[] = [
         description: 'Traditional polish soup.',
         images: [
             'https://cdn.galleries.smcloud.net/t/galleries/gf-7AYZ-fK7B-DQvp_zupa-ogorkowa-664x442-nocrop.jpg',
+            'https://cdn.galleries.smcloud.net/t/galleries/gf-7AYZ-fK7B-DQvp_zupa-ogorkowa-664x442-nocrop.jpg',
         ],
     },
     {
@@ -99,6 +103,7 @@ const fakeDataDishes: Dish[] = [
         priceEuro: 800,
         description: 'Traditional english breakfast.',
         images: [
+            'https://culinaryginger.com/wp-content/uploads/British-fish-and-chips-2--720x405.jpg',
             'https://culinaryginger.com/wp-content/uploads/British-fish-and-chips-2--720x405.jpg',
         ],
     },

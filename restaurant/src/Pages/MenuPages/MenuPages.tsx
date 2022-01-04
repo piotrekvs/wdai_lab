@@ -47,7 +47,18 @@ export class MenuPages extends React.Component<Props, State> {
 
     handleAddToCart = (id: Dish['id'], quantity: Dish['quantity']) => {
         this.setState((s) => {
-
+            let cartContent = [...s.cartContent];
+            const itemIdx = cartContent.findIndex((val) => val.id === id);
+            if (quantity > 0) {
+                itemIdx === -1
+                    ? cartContent.push({ id, quantity }) : cartContent[itemIdx].quantity = quantity;
+            } else {
+                cartContent = cartContent.filter((val) => val.id !== id);
+            }
+            this.props.setNumOfOrderedDishes(
+                cartContent.reduce((prevVal, item) => item.quantity + prevVal, 0),
+            );
+            return { ...s, cartContent };
         });
     };
 
@@ -60,6 +71,7 @@ export class MenuPages extends React.Component<Props, State> {
                         <DishesMenuPage
                             currency={this.props.currency}
                             dishes={this.state.dishes}
+                            cartContent={this.state.cartContent}
                             onAddToCart={this.handleAddToCart}
                             starsReviews={this.state.starsReviews}
                         />
@@ -69,15 +81,21 @@ export class MenuPages extends React.Component<Props, State> {
                     path="/product/:productId"
                     element={(
                         <ProductPage
-                            dishes={this.state.dishes}
-                            cartContent={this.state.cartContent}
                             starsReviews={this.state.starsReviews}
+                            cartContent={this.state.cartContent}
+                            onAddToCart={this.handleAddToCart}
                         />
                     )}
                 />
                 <Route
                     path="/cart"
-                    element={<CartPage cartContent={this.state.cartContent} />}
+                    element={(
+                        <CartPage
+                            dishes={this.state.dishes}
+                            cartContent={this.state.cartContent}
+                            onAddToCart={this.handleAddToCart}
+                        />
+                    )}
                 />
             </Routes>
         );

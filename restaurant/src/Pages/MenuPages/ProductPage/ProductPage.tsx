@@ -1,26 +1,37 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Carousel, Container } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { CartContent, Dish, StarsReviews } from '../../../Types/Types';
+import './ProductPage.css';
 
-type Props = {
-    dishes: Dish[];
-    cartContent: CartContent;
-    starsReviews: StarsReviews;
+type LocationState = {
+    dish: Dish;
 }
 
-type State = {}
+type Props = {
+    starsReviews: StarsReviews;
+    cartContent: CartContent[];
+    onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
+};
 
-const ProductPage = (props: Props) => {
-    const { productId } = useParams();
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const futureFunction = () => {
-
-    };
+const ProductPage: React.FC<Props> = (props: Props) => {
+    const location = useLocation();
+    const { dish } = location.state as LocationState;
 
     return (
-        <div className="container">
-            <h1>{productId}</h1>
-        </div>
+        <Container>
+            <Carousel className="carousel-wrapper">
+                {dish.images.map((image) => (
+                    <Carousel.Item className="carousel-wrapper">
+                        <img
+                            className="d-block img-wrapper"
+                            src={image}
+                            alt="slide"
+                        />
+                    </Carousel.Item>
+                ))}
+            </Carousel>
+        </Container>
     );
 };
 

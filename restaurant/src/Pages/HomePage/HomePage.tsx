@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
+/* eslint-disable max-len */
 import React from 'react';
 import {
     Col, Container, ListGroup, Row,
@@ -23,11 +25,7 @@ const MenuPage = () => (
                     </ListGroup>
                 </Col>
                 <Col>
-                    <img
-                        alt="map"
-                        // eslint-disable-next-line max-len
-                        src="https://k10.targeo.pl/i/cache/static/ulica/ry/krakow+31-008,rynek_glowny.png"
-                    />
+                    <iframe width="450px" height="400px" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Rynek%20G%C5%82%C3%B3wny%201,%2031-042%20Krak%C3%B3w+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" />
                 </Col>
             </Row>
         </Container>
