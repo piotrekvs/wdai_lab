@@ -11,6 +11,7 @@ type Props = {
     currency: string;
     dishes: Dish[];
     starsReviews: StarsReviews;
+    onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
 };
 
 type State = {
@@ -48,6 +49,7 @@ export class DishesMenuPage extends React.Component<Props, State> {
     // eslint-disable-next-line class-methods-use-this
     handleAddNewDish = (d: DishInput) => {
         // TODO
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const newDish: Dish = {
             id: d.id,
             name: d.name,
@@ -62,6 +64,7 @@ export class DishesMenuPage extends React.Component<Props, State> {
         };
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     handleDelete = (id: Dish['id']) => {
         // TODO
         this.findMostLeastExpensiveDish();
@@ -93,6 +96,7 @@ export class DishesMenuPage extends React.Component<Props, State> {
                     <DishCard
                         key={dish.id}
                         dish={dish}
+                        onAddToCart={this.props.onAddToCart}
                         currency={this.props.currency}
                         currencyFactor={this.props.currency === 'euro' ? 1 : 0.88}
                         borderColor={this.handleBorderColor(dish.id)}

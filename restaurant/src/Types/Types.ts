@@ -42,7 +42,8 @@ export type StarsReview = {id: Dish['id'], value: number};
 export type StarsReviews = StarsReview[];
 
 export type CartContent = {
-    totalPriceEuro: number;
-    totalQuantity: number;
-    orders: {id: Dish['id'], quantity: Dish['quantity']}[]
+    id: string;
+    price: number;
+    quantity: number;
+    dish: Dish;
 }

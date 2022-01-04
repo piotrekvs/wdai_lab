@@ -10,6 +10,7 @@ import DishStarsReview from '../DishStarsReview/DishStarsReview';
 
 type Props = {
     dish: Dish;
+    onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
     currency: string;
     currencyFactor: number;
     borderColor: string;
@@ -27,9 +28,10 @@ export class DishCard extends React.Component<Props, State> {
 
     handleAddBtn = (x: number) => {
         this.setState((s) => ({ orderedQuantity: s.orderedQuantity + x }));
+        this.props.onAddToCart(this.props.dish.id, this.state.orderedQuantity);
     };
 
-    handleSubtractBtn = () => {
+    handleDeleteBtn = () => {
         this.handleAddBtn(-this.state.orderedQuantity);
         this.props.onDelete();
     };
@@ -57,7 +59,7 @@ export class DishCard extends React.Component<Props, State> {
                 <Button
                     className="position-absolute top-0 end-0 p-0"
                     variant="danger"
-                    onClick={this.handleSubtractBtn}
+                    onClick={this.handleDeleteBtn}
                 >
                     <BsXLg size={24} />
                 </Button>

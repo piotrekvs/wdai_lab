@@ -15,7 +15,7 @@ type Props = {
 
 type State = {
     dishes: Dish[];
-    cartContent: CartContent;
+    cartContent: CartContent[];
     starsReviews: StarsReviews;
     isLoading: boolean;
 };
@@ -25,11 +25,7 @@ const dishes = fakeDataDishes;
 export class MenuPages extends React.Component<Props, State> {
     state: State = {
         dishes,
-        cartContent: {
-            totalPriceEuro: 0,
-            totalQuantity: 0,
-            orders: [],
-        },
+        cartContent: [],
         starsReviews: [],
         // eslint-disable-next-line react/no-unused-state
         isLoading: false,
@@ -49,6 +45,12 @@ export class MenuPages extends React.Component<Props, State> {
         });
     };
 
+    handleAddToCart = (id: Dish['id'], quantity: Dish['quantity']) => {
+        this.setState((s) => {
+
+        });
+    };
+
     render() {
         return (
             <Routes>
@@ -58,6 +60,7 @@ export class MenuPages extends React.Component<Props, State> {
                         <DishesMenuPage
                             currency={this.props.currency}
                             dishes={this.state.dishes}
+                            onAddToCart={this.handleAddToCart}
                             starsReviews={this.state.starsReviews}
                         />
                     )}
