@@ -37,9 +37,18 @@ export type DishValidation = { // (-1) - not used yet, 0 - invalid, 1 - valid
     images: -1 | 0 | 1;
 };
 
-export type StarsReview = {id: Dish['id'], value: number};
+export type TextReview = {
+    stars: number;
+    name: string;
+    text: string;
+    purchaseDate: string;
+}
 
-export type StarsReviews = StarsReview[];
+export type DishReview = {
+    id: Dish['id'];
+    stars: number;
+    reviews: TextReview[]
+};
 
 export type CartContent = {
     id: string;

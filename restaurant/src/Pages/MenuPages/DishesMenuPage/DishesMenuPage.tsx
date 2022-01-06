@@ -1,8 +1,9 @@
 import React from 'react';
 import './DishesMenuPage.css';
+import { Container } from 'react-bootstrap';
 import {
     CartContent,
-    Dish, DishInput, StarsReview, StarsReviews,
+    Dish, DishInput,
 } from '../../../Types/Types';
 import DishCard from '../../../Components/ProductCard/DishCard';
 import DishCardAdd from '../../../Components/ProductCard/DishCardAdd';
@@ -11,7 +12,6 @@ import AddDishModal from '../../../Components/AddDishModal/AddDishModal';
 type Props = {
     currency: string;
     dishes: Dish[];
-    starsReviews: StarsReviews;
     cartContent: CartContent[];
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
 };
@@ -97,10 +97,11 @@ export class DishesMenuPage extends React.Component<Props, State> {
 
     render() {
         return (
-            <div className="container">
+            <Container className="container">
                 <DishCardAdd onClick={this.handleAddDishBtn} />
                 {this.props.dishes.map((dish: Dish) => (
                     <DishCard
+                        withImage
                         key={dish.id}
                         dish={dish}
                         orderedQuantity={this.findOrderedQuantity(dish.id)}
@@ -109,9 +110,6 @@ export class DishesMenuPage extends React.Component<Props, State> {
                         currencyFactor={this.props.currency === 'euro' ? 1 : 0.88}
                         borderColor={this.handleBorderColor(dish.id)}
                         onDelete={() => this.handleDelete(dish.id)}
-                        starsReview={this.props.starsReviews.find(
-                            (v: StarsReview) => v.id === dish.id,
-                        )}
                     />
                 ))}
                 {this.state.addDishModalMount && (
@@ -122,7 +120,7 @@ export class DishesMenuPage extends React.Component<Props, State> {
                         onExited={() => this.setState({ addDishModalMount: false })}
                     />
                 )}
-            </div>
+            </Container>
         );
     }
 }

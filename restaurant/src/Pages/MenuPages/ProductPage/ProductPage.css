@@ -1,14 +1,21 @@
-.container {
-    margin: auto;
+.row-container {
+    margin-top: 1rem !important;
 }
 
 .carousel-wrapper {
-    width: 700px;
-    height: 500px;
+    width: 100%;
+}
+
+.carousel-item-wrapper {
+    height: 400px;
     background-color: grey;
 }
 
 .img-wrapper {
+    width: auto;
+    max-width: 100%;
     height: 100%;
-    object-fit: 'cover';
+    object-fit: "contain";
+    margin-left: auto;
+    margin-right: auto;
 }

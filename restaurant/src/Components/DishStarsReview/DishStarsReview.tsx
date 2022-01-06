@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { BsStarFill, BsStar } from 'react-icons/bs';
-import { StarsReview } from '../../Types/Types';
 
 type Props = {
-    starsReview: StarsReview | undefined;
+    starsReview: number;
+    onChange: (x: number) => void;
 }
 
 const DishStarsReview = (props: Props) => {
@@ -12,8 +12,9 @@ const DishStarsReview = (props: Props) => {
     return (
         <div>
             {[...Array(maxStars)].map((_, i) => (
-                (props.starsReview === undefined || props.starsReview.value < i)
-                    ? <BsStar key={i} /> : <BsStarFill key={i} />
+                props.starsReview > i
+                    ? <BsStarFill size={24} key={i} onClick={() => props.onChange(i)} />
+                    : <BsStar size={24} key={i} onClick={() => props.onChange(i)} />
             ))}
         </div>
     );

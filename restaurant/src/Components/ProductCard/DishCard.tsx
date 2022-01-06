@@ -4,10 +4,10 @@ import {
 } from 'react-bootstrap';
 import { BsPlusLg, BsDashLg, BsXLg } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { Dish, StarsReview } from '../../Types/Types';
-import DishStarsReview from '../DishStarsReview/DishStarsReview';
+import { Dish } from '../../Types/Types';
 
 type Props = {
+    withImage: boolean;
     dish: Dish;
     orderedQuantity: Dish['quantity'];
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
@@ -15,7 +15,6 @@ type Props = {
     currencyFactor: number;
     borderColor: string;
     onDelete: () => void;
-    starsReview: StarsReview | undefined;
 };
 
 type State = {
@@ -58,18 +57,30 @@ export class DishCard extends React.Component<Props, State> {
         return (
             <Card
                 border={this.props.borderColor}
-                style={{ width: '18rem', margin: '1rem' }}
+                style={this.props.withImage ? { width: '18rem', margin: '1rem' } : {}}
             >
-                <Button
-                    className="position-absolute top-0 end-0 p-0"
-                    variant="danger"
-                    onClick={this.handleDeleteBtn}
-                >
-                    <BsXLg size={24} />
-                </Button>
-                <Link to={`product/${this.props.dish.id}`} state={{ dish: this.props.dish }}>
-                    <Card.Img height="180px" variant="top" src={this.props.dish.images[0]} />
-                </Link>
+                {this.props.withImage
+                && (
+                    <>
+                        <Button
+                            className="position-absolute top-0 end-0 p-0"
+                            variant="danger"
+                            onClick={this.handleDeleteBtn}
+                        >
+                            <BsXLg size={24} />
+                        </Button>
+                        <Link
+                            to={`product/${this.props.dish.id}`}
+                            state={{ dish: this.props.dish }}
+                        >
+                            <Card.Img
+                                height="180px"
+                                variant="top"
+                                src={this.props.dish.images[0]}
+                            />
+                        </Link>
+                    </>
+                )}
                 <Card.Body>
                     <Card.Title>{this.props.dish.name.toUpperCase()}</Card.Title>
                     <Card.Text>{this.props.dish.description}</Card.Text>
@@ -94,10 +105,7 @@ export class DishCard extends React.Component<Props, State> {
                     </ListGroupItem>
                 </ListGroup>
                 <Card.Body>
-                    <div className="d-flex justify-content-between align-items-start">
-                        <Card.Title>{this.displayPrice()}</Card.Title>
-                        <DishStarsReview starsReview={this.props.starsReview} />
-                    </div>
+                    <Card.Title>{this.displayPrice()}</Card.Title>
                     <div className="d-flex justify-content-between align-items-center">
                         <Button
                             className="m-1"

@@ -11,7 +11,7 @@ type Props = {
 }
 
 const CartPage: React.FC<Props> = (props: Props) => (
-    <Container fluid className="container d-flex flex-column">
+    <Container className="d-flex flex-column">
         <h1>Cart:</h1>
         {!props.cartContent.length && <h2>Empty</h2>}
         <ListGroup variant="flush">
