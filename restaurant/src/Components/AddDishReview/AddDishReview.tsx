@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Form, Row, Col, Button,
 } from 'react-bootstrap';
 import { TextReview } from '../../Types/Types';
 import DishStarsReview from '../DishStarsReview/DishStarsReview';
 
-type Props = {};
+type Props = {
+    onAddReview: (newReview: TextReview) => void;
+};
 
 type State = {
     reviewForm: TextReview;
@@ -18,6 +20,17 @@ const AddDishReview: React.FC<Props> = (props: Props) => {
         text: '',
         purchaseDate: '',
     }));
+
+    const handleAddDishReview = () => {
+        // TODO: checks;
+        props.onAddReview(reviewForm);
+        setReviewForm(() => ({
+            stars: 0,
+            name: '',
+            text: '',
+            purchaseDate: '',
+        }));
+    };
 
     return (
         <Form className="border p-2">
@@ -38,21 +51,43 @@ const AddDishReview: React.FC<Props> = (props: Props) => {
                 </Col>
                 <Col>
                     <Form.Floating className="mb-3">
-                        <Form.Control type="date" />
-                        <Form.Label>Date of Purchase</Form.Label>
+                        <Form.Control
+                            type="date"
+                            id="fi-2"
+                            value={reviewForm.purchaseDate}
+                            onChange={(val) => setReviewForm(
+                                (s) => ({ ...s, purchaseDate: val.target.value }),
+                            )}
+                        />
+                        <Form.Label htmlFor="fi-2">Date of Purchase</Form.Label>
                     </Form.Floating>
                 </Col>
                 <Col>
                     <div className="d-flex justify-content-center">
-                        <DishStarsReview starsReview={3} onChange={() => undefined} />
+                        <DishStarsReview
+                            starsReview={reviewForm.stars}
+                            onChange={(stars) => setReviewForm(
+                                (s) => ({ ...s, stars }),
+                            )}
+                        />
                     </div>
                 </Col>
             </Row>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Control as="textarea" rows={2} placeholder="Review" />
-            </Form.Group>
+            <Form.Floating className="mb-3">
+                <Form.Control
+                    as="textarea"
+                    id="fi-3"
+                    placeholder="Review"
+                    style={{ height: '5rem' }}
+                    value={reviewForm.text}
+                    onChange={(val) => setReviewForm(
+                        (s) => ({ ...s, text: val.target.value }),
+                    )}
+                />
+                <Form.Label htmlFor="fi-3">Review</Form.Label>
+            </Form.Floating>
             <div className="d-flex justify-content-end">
-                <Button>Dodaj opinię</Button>
+                <Button onClick={handleAddDishReview}>Dodaj opinię</Button>
             </div>
         </Form>
     );

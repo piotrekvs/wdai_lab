@@ -9,7 +9,7 @@ import AddDishReview from '../../../Components/AddDishReview/AddDishReview';
 import DishStarsReview from '../../../Components/DishStarsReview/DishStarsReview';
 import DishCard from '../../../Components/ProductCard/DishCard';
 import {
-    CartContent, Dish, DishReview,
+    CartContent, Dish, DishReview, TextReview,
 } from '../../../Types/Types';
 import './ProductPage.css';
 
@@ -39,6 +39,17 @@ const ProductPage: React.FC<Props> = (props: Props) => {
     const findOrderedQuantity = (id: Dish['id']) => {
         const itemIdx = props.cartContent.findIndex((item) => item.id === id);
         return itemIdx === -1 ? 0 : props.cartContent[itemIdx].quantity;
+    };
+
+    const handleAddReview = (review: TextReview) => {
+        setDishReviews((s) => {
+            const reviews = [...s.reviews];
+            reviews.push(review);
+            let avgStars = 0;
+            reviews.forEach((r) => { avgStars += r.stars; });
+            avgStars /= reviews.length;
+            return ({ id: s.id, stars: avgStars, reviews });
+        });
     };
 
     return (
@@ -83,7 +94,7 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                             Dish rating:
                         </div>
                         <DishStarsReview
-                            starsReview={dishReviews.stars}
+                            starsReview={4}
                             onChange={() => undefined}
                         />
                         <div className="ms-2">
@@ -91,14 +102,16 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                         </div>
                     </Container>
 
-                    <AddDishReview />
+                    <AddDishReview onAddReview={handleAddReview} />
 
                     <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <h3>Nick</h3>
-                            <p>Review.</p>
-                            <p>Date of purchase: 121121</p>
-                        </ListGroup.Item>
+                        {dishReviews.reviews.map((r) => (
+                            <ListGroup.Item>
+                                <h3>{r.name}</h3>
+                                <p>{r.text}</p>
+                                <p>{r.purchaseDate}</p>
+                            </ListGroup.Item>
+                        ))}
                     </ListGroup>
                 </Col>
                 <Col md={4} />

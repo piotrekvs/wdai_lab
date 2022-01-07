@@ -13,8 +13,8 @@ const DishStarsReview = (props: Props) => {
         <div>
             {[...Array(maxStars)].map((_, i) => (
                 props.starsReview > i
-                    ? <BsStarFill size={24} key={i} onClick={() => props.onChange(i)} />
-                    : <BsStar size={24} key={i} onClick={() => props.onChange(i)} />
+                    ? <BsStarFill size={24} key={i} onClick={() => props.onChange(i + 1)} />
+                    : <BsStar size={24} key={i} onClick={() => props.onChange(i + 1)} />
             ))}
         </div>
     );
