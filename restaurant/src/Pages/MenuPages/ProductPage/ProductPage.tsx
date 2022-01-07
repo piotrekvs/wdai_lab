@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import {
     Button,
-    Carousel, Col, Container, Form, ListGroup, Row,
+    Carousel, Col, Container, ListGroup, Row,
 } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
+import AddDishReview from '../../../Components/AddDishReview/AddDishReview';
 import DishStarsReview from '../../../Components/DishStarsReview/DishStarsReview';
 import DishCard from '../../../Components/ProductCard/DishCard';
 import {
-    CartContent, Dish, DishReview, TextReview,
+    CartContent, Dish, DishReview,
 } from '../../../Types/Types';
 import './ProductPage.css';
 
@@ -24,7 +25,6 @@ type Props = {
 
 type State = {
     review: DishReview;
-    newReview: TextReview;
 }
 
 const ProductPage: React.FC<Props> = (props: Props) => {
@@ -34,12 +34,6 @@ const ProductPage: React.FC<Props> = (props: Props) => {
         id: '',
         stars: 0,
         reviews: [],
-    }));
-    const [newReview, setNewReview] = useState<State['newReview']>(() => ({
-        stars: 0,
-        name: '',
-        text: '',
-        purchaseDate: '',
     }));
 
     const findOrderedQuantity = (id: Dish['id']) => {
@@ -66,6 +60,7 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                         ))}
                     </Carousel>
                 </Col>
+
                 <Col md={4}>
                     <DishCard
                         withImage={false}
@@ -80,6 +75,7 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                     />
                 </Col>
             </Row>
+
             <Row className="row-container">
                 <Col md={8}>
                     <Container className="d-flex justify-content-end mb-5">
@@ -94,33 +90,9 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                             {`(based on ${dishReviews.reviews.length} reviews)`}
                         </div>
                     </Container>
-                    <Form className="border p-2">
-                        <Row>
-                            <Col>
-                                <Form.Floating className="mb-3">
-                                    <Form.Control type="text" placeholder="Your Nick" id="fi-1" />
-                                    <Form.Label htmlFor="fi-1">Your Nick</Form.Label>
-                                </Form.Floating>
-                            </Col>
-                            <Col>
-                                <Form.Floating className="mb-3">
-                                    <Form.Control type="date" />
-                                    <Form.Label>Date of Purchase</Form.Label>
-                                </Form.Floating>
-                            </Col>
-                            <Col>
-                                <div className="d-flex justify-content-center">
-                                    <DishStarsReview starsReview={3} onChange={() => undefined} />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                            <Form.Control as="textarea" rows={2} placeholder="Review" />
-                        </Form.Group>
-                        <div className="d-flex justify-content-end">
-                            <Button>Dodaj opinię</Button>
-                        </div>
-                    </Form>
+
+                    <AddDishReview />
+
                     <ListGroup variant="flush">
                         <ListGroup.Item>
                             <h3>Nick</h3>
