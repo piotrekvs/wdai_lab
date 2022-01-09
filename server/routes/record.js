@@ -1,56 +1,43 @@
 const express = require('express');
 const ObjectID = require('mongodb').ObjectID;
-
-// recordRoutes is an instance of the express router.
-// We use it to define our routes.
-// The router will be added as a middleware and will take control of requests starting with path /listings.
 const recordRoutes = express.Router();
 
-// This will help us connect to the database
+// Connect to database
 const dbo = require('../db/conn');
 
-// This section will help you get a list of all the records.
-// Get all products with limit, offset and filters
+// 
+// 
+// 
+// 
+// Dishes methods
 recordRoutes.route('/restaurant_wdai/dishes').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
-  var limit = 20;
-  var offset = 0;
-  if (typeof _req.query.limit !== 'undefined')
+  let limit;
+  let offset;
+  if (typeof _req.query.limit !== 'undefined' && typeof _req.query.offset !== 'undefined') {
     limit = parseInt(_req.query.limit);
-  if (typeof _req.query.offset !== 'undefined')
     offset = parseInt(_req.query.offset);
+  } else {
+    res.status(400).send('Bad Request!');
+  }
 
-  var cnt = 0;
-  // dbConnect
-  //   .collection('dishes')
-  //   .count({"deleted": false }, function (err, result) {
-  //     if (err) {
-  //       res.status(400).send('Error fetching listings!');
-  //     }
-  //     else {
-  //       cnt = result
-  //       // res.json({"count": result.length});
-  //     }
-  //   });
-
-  console.log(limit);
-  console.log(offset);
+  const counter = await dbConnect.collection('dishes').countDocuments();
   dbConnect
     .collection('dishes')
-    .find() //{"deleted": false })
-    .skip(offset) // for pagination
+    .find()
+    .skip(offset)
     .limit(limit)
     .toArray(function (err, result) {
       if (err) {
-        res.status(400).send('Error fetching listings!');
+        res.status(404).send('Error fetching listings! Not Found.');
       } else {
-        res.json({ count: cnt, dishes: result });
+        res.json({ counter, dishes: result });
       }
     });
 });
 
 // Get product by _id
-recordRoutes.route('/restaurant/dishes/:_id').get(async function (_req, res) {
+recordRoutes.route('/restaurant_wdai/dishes/:_id').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
 
   console.log(_req.params._id);
@@ -66,20 +53,20 @@ recordRoutes.route('/restaurant/dishes/:_id').get(async function (_req, res) {
 });
 
 // Delete product by _id
-recordRoutes.route('/restaurant/dishes/:_id').put((_req, res) => {
+recordRoutes.route('/restaurant_wdai/dishes/:id').delete((_req, res) => {
   const dbConnect = dbo.getDb();
 
-  var filter = { _id: new ObjectID(_req.params._id) };
-  var update = { $set: { deleted: true } };
-  var options = { upsert: true };
+  var filter = { id: _req.params.id };
+  //var update = { $set: { deleted: true } };
+  //var options = { upsert: true };
 
   console.log(filter);
-  console.log(update);
-  console.log(options);
+  //console.log(update);
+  //console.log(options);
 
   dbConnect
     .collection('dishes')
-    .updateOne(filter, update, options, function (err, _result) {
+    .deleteOne(filter, function (err, _result) {
       if (err) {
         res.status(400).send(`Error deleting listing with id bad request!`);
       } else {
@@ -90,19 +77,19 @@ recordRoutes.route('/restaurant/dishes/:_id').put((_req, res) => {
 });
 
 // Post new product
-recordRoutes.route('/restaurant/dishes/').post(function (_req, res) {
-  const dbConnect = dbo.getDb();
+recordRoutes.route('/restaurant_wdai/dishes/').post(function (_req, res) {
+const dbConnect = dbo.getDb();
   const matchDocument = {
+    id: _req.body.id,
     name: _req.body.name,
-    cuisineType: _req.body.cuisineType,
-    type: _req.body.type,
+    cuisine: _req.body.cuisine,
+    meal: _req.body.meal,
     category: _req.body.category,
     ingredients: _req.body.ingredients,
-    maxPerDay: _req.body.maxPerDay,
+    quantity: _req.body.quantity,
     priceEuro: _req.body.priceEuro,
     description: _req.body.description,
-    imagesURL: _req.body.imagesURL,
-    deleted: false,
+    images: _req.body.images,
   };
 
   dbConnect
@@ -116,6 +103,50 @@ recordRoutes.route('/restaurant/dishes/').post(function (_req, res) {
       }
     });
 });
+
+// 
+// 
+// 
+// 
+// REVIEWS
+recordRoutes.route('/restaurant_wdai/reviews').get(async function (_req, res) {
+  const dbConnect = dbo.getDb();
+  var limit = 20;
+  var offset = 0;
+  if (typeof _req.query.limit !== 'undefined')
+    limit = parseInt(_req.query.limit);
+  if (typeof _req.query.offset !== 'undefined')
+    offset = parseInt(_req.query.offset);
+
+  var count = 0;
+  dbConnect
+    .collection('dishes')
+    .count(function (err, result) {
+      if (err) {
+        res.status(400).send('Error fetching listings!');
+      }
+      else {
+        count = result
+        // res.json({"count": result.length});
+      }
+    });
+
+  console.log(limit);
+  console.log(offset);
+  dbConnect
+    .collection('dishes')
+    .find() //{"deleted": false })
+    .skip(offset) // for pagination
+    .limit(limit)
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send('Error fetching listings!');
+      } else {
+        res.json({ count, dishes: result });
+      }
+    });
+});
+
 
 // This section will help you create a new record.
 recordRoutes.route('/listings/recordSwipe').post(function (req, res) {

@@ -10,7 +10,7 @@ type Props = {
     withImage: boolean;
     dish: Dish;
     orderedQuantity: Dish['quantity'];
-    onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
+    onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
     currency: string;
     currencyFactor: number;
     borderColor: string;
@@ -29,13 +29,17 @@ export class DishCard extends React.Component<Props, State> {
     handleAddBtn = (x: number) => {
         this.setState((s) => {
             const orderedQuantity = s.orderedQuantity + x;
-            this.props.onAddToCart(this.props.dish.id, orderedQuantity);
+            this.props.onAddToCart(this.props.dish.id, orderedQuantity, this.props.dish);
             return { orderedQuantity };
         });
     };
 
     handleDeleteBtn = () => {
-        this.handleAddBtn(-this.state.orderedQuantity);
+        this.setState(() => {
+            const orderedQuantity = 0;
+            this.props.onAddToCart(this.props.dish.id, orderedQuantity, this.props.dish);
+            return { orderedQuantity };
+        });
         this.props.onDelete();
     };
 

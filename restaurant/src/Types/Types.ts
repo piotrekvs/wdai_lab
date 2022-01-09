@@ -1,4 +1,5 @@
 export type Dish = {
+    _id: string;
     id: string;
     name: string;
     cuisine: string;
@@ -38,7 +39,10 @@ export type DishValidation = { // (-1) - not used yet, 0 - invalid, 1 - valid
 };
 
 export type TextReview = {
+    dishId: string;
+    id: string;
     stars: number;
+    nick: string;
     name: string;
     text: string;
     purchaseDate: string;
@@ -53,4 +57,12 @@ export type DishReview = {
 export type CartContent = {
     id: string;
     quantity: number;
+    dish: Dish;
 }
+
+export type Pagination = {
+    itemsLength: number;
+    itemsOnPage: number;
+    pages: number;
+    active: number;
+};

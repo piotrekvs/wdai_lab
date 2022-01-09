@@ -1,9 +1,10 @@
+import axios from 'axios';
 import React from 'react';
 import {
     Button, Modal, Tabs, Tab,
 } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
-import { DishInput, DishValidation } from '../../Types/Types';
+import { Dish, DishInput, DishValidation } from '../../Types/Types';
 import AddDishForm1Step from './AddDishForm1Step';
 import AddDishForm2Step from './AddDishForm2Step';
 import {
@@ -13,9 +14,15 @@ import {
     validateDishMeal, validateDishName, validateDishPriceEuro, validateDishQuantity,
 } from './AddDishInputValidation';
 
+const addNewDish = (newDish: Dish) => axios({
+    url: '/restaurant_wdai/dishes',
+    method: 'post',
+    data: newDish,
+});
+
 type Props = {
     show: boolean;
-    onAdd: (d: DishInput) => void;
+    onAdd: () => void;
     onClose: () => void;
     onExited: () => void;
 };
@@ -96,7 +103,7 @@ export class AddDishModal extends React.Component<Props, State> {
         this.handleTabActiveKey(STEP_1);
     };
 
-    handleAddBtn = () => {
+    handleAddBtn = async () => {
         if (this.state.dish.ingredients.length < 2) {
             this.setState((s) => ({ validation: { ...s.validation, ingredients: 0 } }));
             return;
@@ -106,7 +113,21 @@ export class AddDishModal extends React.Component<Props, State> {
             return;
         }
         if (this.state.isStep1Valid) {
-            this.props.onAdd(this.state.dish);
+            const newDish: Dish = {
+                _id: '',
+                id: this.state.dish.id,
+                name: this.state.dish.name,
+                cuisine: this.state.dish.cuisine,
+                meal: this.state.dish.meal,
+                category: this.state.dish.category,
+                ingredients: [...this.state.dish.ingredients],
+                quantity: parseInt(this.state.dish.quantity, 10),
+                priceEuro: Math.floor(parseFloat(this.state.dish.priceEuro) * 100),
+                description: this.state.dish.description,
+                images: [...this.state.dish.images],
+            };
+            await addNewDish(newDish);
+            this.props.onAdd();
             this.props.onClose();
         }
     };

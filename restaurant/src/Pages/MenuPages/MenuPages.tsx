@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import fakeDataDishes from '../../Data/data';
 import {
     CartContent, Dish,
 } from '../../Types/Types';
@@ -14,30 +13,26 @@ type Props = {
 };
 
 type State = {
-    dishes: Dish[];
     cartContent: CartContent[];
     isLoading: boolean;
 };
 
-const dishes = fakeDataDishes;
-
 export class MenuPages extends React.Component<Props, State> {
     state: State = {
-        dishes,
         cartContent: [],
         // eslint-disable-next-line react/no-unused-state
         isLoading: false,
     };
 
-    // eslint-disable-next-line react/no-unused-class-component-methods
-
-    handleAddToCart = (id: Dish['id'], quantity: Dish['quantity']) => {
+    handleAddToCart = (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => {
         this.setState((s) => {
             let cartContent = [...s.cartContent];
             const itemIdx = cartContent.findIndex((val) => val.id === id);
+            const newDish = JSON.parse(JSON.stringify(dish));
             if (quantity > 0) {
                 itemIdx === -1
-                    ? cartContent.push({ id, quantity }) : cartContent[itemIdx].quantity = quantity;
+                    ? cartContent.push({ id, quantity, dish: newDish })
+                    : cartContent[itemIdx] = { id, quantity, dish: newDish };
             } else {
                 cartContent = cartContent.filter((val) => val.id !== id);
             }
@@ -56,7 +51,6 @@ export class MenuPages extends React.Component<Props, State> {
                     element={(
                         <DishesMenuPage
                             currency={this.props.currency}
-                            dishes={this.state.dishes}
                             cartContent={this.state.cartContent}
                             onAddToCart={this.handleAddToCart}
                         />
@@ -76,9 +70,9 @@ export class MenuPages extends React.Component<Props, State> {
                     path="/cart"
                     element={(
                         <CartPage
-                            dishes={this.state.dishes}
                             cartContent={this.state.cartContent}
                             onAddToCart={this.handleAddToCart}
+                            currency={this.props.currency}
                         />
                     )}
                 />

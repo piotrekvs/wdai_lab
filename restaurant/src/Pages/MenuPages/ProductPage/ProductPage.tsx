@@ -19,7 +19,7 @@ type LocationState = {
 
 type Props = {
     cartContent: CartContent[];
-    onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
+    onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
     currency: string;
 };
 
@@ -60,8 +60,9 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                         <Button className="mb-1">Powrót do menu</Button>
                     </Link>
                     <Carousel className="carousel-wrapper">
-                        {dish.images.map((image) => (
-                            <Carousel.Item className="carousel-item-wrapper">
+                        {dish.images.map((image, idx) => (
+                            // eslint-disable-next-line react/no-array-index-key
+                            <Carousel.Item className="carousel-item-wrapper" key={`img-${idx}`}>
                                 <img
                                     className="d-block img-wrapper"
                                     src={image}
@@ -102,11 +103,12 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                         </div>
                     </Container>
 
-                    <AddDishReview onAddReview={handleAddReview} />
+                    <AddDishReview onAddReview={handleAddReview} dishId={dish.id} />
 
                     <ListGroup variant="flush">
                         {dishReviews.reviews.map((r) => (
-                            <ListGroup.Item>
+                            <ListGroup.Item key={r.id}>
+                                <h2>{`Nick: ${r.nick}`}</h2>
                                 <h3>{r.name}</h3>
                                 <p>{r.text}</p>
                                 <p>{r.purchaseDate}</p>

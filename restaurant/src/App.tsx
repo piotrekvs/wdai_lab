@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -5,7 +6,10 @@ import HeaderNavigation from './Components/HeaderNavigation/HeaderNavigation';
 import HomePage from './Pages/HomePage/HomePage';
 import MenuPages from './Pages/MenuPages/MenuPages';
 
+axios.defaults.baseURL = 'http://localhost:4000/';
+
 type Props = {}
+
 type State = {
     currency: string;
     numOfOrderedDishes: number;

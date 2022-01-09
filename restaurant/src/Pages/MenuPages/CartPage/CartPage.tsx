@@ -4,10 +4,11 @@ import { CartContent, Dish } from '../../../Types/Types';
 import './CartPage.css';
 
 type Props = {
-    dishes: Dish[];
     cartContent: CartContent[];
     // eslint-disable-next-line react/no-unused-prop-types
-    onAddToCart: (id: Dish['id'], quantity: Dish['quantity']) => void;
+    onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
+    // eslint-disable-next-line react/no-unused-prop-types
+    currency: string;
 }
 
 const CartPage: React.FC<Props> = (props: Props) => (
@@ -15,14 +16,11 @@ const CartPage: React.FC<Props> = (props: Props) => (
         <h1>Cart:</h1>
         {!props.cartContent.length && <h2>Empty</h2>}
         <ListGroup variant="flush">
-            {props.cartContent.map((item) => {
-                const dish = props.dishes.find((d) => d.id === item.id);
-                return (
-                    <ListGroup.Item>
-                        {dish?.name}
-                    </ListGroup.Item>
-                );
-            })}
+            {props.cartContent.map((item) => (
+                <ListGroup.Item key={item.dish.id}>
+                    {`${item.dish.name} ${item.quantity}`}
+                </ListGroup.Item>
+            ))}
         </ListGroup>
     </Container>
 );

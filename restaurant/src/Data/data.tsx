@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { Dish } from '../Types/Types';
 
-const fakeDataDishes: Dish[] = [
+const fakeDataDishes = [
     {
         id: 'd0',
         name: 'Pierogi',
