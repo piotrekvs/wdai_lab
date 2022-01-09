@@ -1,5 +1,5 @@
 const express = require('express');
-const ObjectID = require('mongodb').ObjectID;
+// const ObjectID = require('mongodb').ObjectID;
 const recordRoutes = express.Router();
 
 // Connect to database
@@ -9,7 +9,8 @@ const dbo = require('../db/conn');
 // 
 // 
 // 
-// Dishes methods
+// DISHES
+// Get dishes
 recordRoutes.route('/restaurant_wdai/dishes').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
   let limit;
@@ -36,14 +37,14 @@ recordRoutes.route('/restaurant_wdai/dishes').get(async function (_req, res) {
     });
 });
 
-// Get product by _id
-recordRoutes.route('/restaurant_wdai/dishes/:_id').get(async function (_req, res) {
+// Get dish by id
+recordRoutes.route('/restaurant_wdai/dishes/:id').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
+  let filter = { id: _req.params.id };
 
-  console.log(_req.params._id);
   dbConnect
     .collection('dishes')
-    .findOne({ _id: new ObjectID(_req.params._id) }, function (err, result) {
+    .findOne(filter, function (err, result) {
       if (err) {
         res.status(400).send('Error fetching listings!');
       } else {
@@ -52,17 +53,10 @@ recordRoutes.route('/restaurant_wdai/dishes/:_id').get(async function (_req, res
     });
 });
 
-// Delete product by _id
+// Delete dish by id
 recordRoutes.route('/restaurant_wdai/dishes/:id').delete((_req, res) => {
   const dbConnect = dbo.getDb();
-
-  var filter = { id: _req.params.id };
-  //var update = { $set: { deleted: true } };
-  //var options = { upsert: true };
-
-  console.log(filter);
-  //console.log(update);
-  //console.log(options);
+  let filter = { id: _req.params.id };
 
   dbConnect
     .collection('dishes')
@@ -76,7 +70,7 @@ recordRoutes.route('/restaurant_wdai/dishes/:id').delete((_req, res) => {
     });
 });
 
-// Post new product
+// Post new dish
 recordRoutes.route('/restaurant_wdai/dishes/').post(function (_req, res) {
 const dbConnect = dbo.getDb();
   const matchDocument = {
@@ -109,6 +103,7 @@ const dbConnect = dbo.getDb();
 // 
 // 
 // REVIEWS
+// Get Reviews
 recordRoutes.route('/restaurant_wdai/reviews').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
   let dishId;
@@ -130,6 +125,7 @@ recordRoutes.route('/restaurant_wdai/reviews').get(async function (_req, res) {
     });
 });
 
+// Post review
 recordRoutes.route('/restaurant_wdai/reviews').post(function (_req, res) {
   const dbConnect = dbo.getDb();
   const matchDocument = {
