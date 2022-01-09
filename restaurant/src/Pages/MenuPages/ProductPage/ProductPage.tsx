@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
     Button,
     Carousel, Col, Container, ListGroup, Row,
@@ -12,6 +13,18 @@ import {
     CartContent, Dish, DishReview, TextReview,
 } from '../../../Types/Types';
 import './ProductPage.css';
+
+const getReviews = (dishId: Dish['id']) => axios({
+    url: '/restaurant_wdai/reviews',
+    method: 'get',
+    params: { dishId },
+});
+
+const addReview = (review: TextReview) => axios({
+    url: '/restaurant_wdai/reviews',
+    method: 'post',
+    data: review,
+});
 
 type LocationState = {
     dish: Dish;
@@ -36,6 +49,30 @@ const ProductPage: React.FC<Props> = (props: Props) => {
         reviews: [],
     }));
 
+    const calculateStars = (reviews: TextReview[]) => {
+        let avgStars = 0;
+        reviews.forEach((r) => { avgStars += r.stars; });
+        return avgStars / reviews.length;
+    };
+
+    const fetchReviews = async () => {
+        try {
+            const reviewsRes = await getReviews(dish.id);
+            if (reviewsRes.data.counter > 0) {
+                setDishReviews((s) => {
+                    const stars = calculateStars(reviewsRes.data.reviews);
+                    return ({ ...s, stars, reviews: reviewsRes.data.reviews });
+                });
+            }
+        } catch (e) {
+            // TODO: handle errors
+        }
+    };
+
+    useEffect(() => {
+        fetchReviews();
+    }, []);
+
     const findOrderedQuantity = (id: Dish['id']) => {
         const itemIdx = props.cartContent.findIndex((item) => item.id === id);
         return itemIdx === -1 ? 0 : props.cartContent[itemIdx].quantity;
@@ -50,6 +87,7 @@ const ProductPage: React.FC<Props> = (props: Props) => {
             avgStars /= reviews.length;
             return ({ id: s.id, stars: avgStars, reviews });
         });
+        addReview(review);
     };
 
     return (
@@ -95,7 +133,7 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                             Dish rating:
                         </div>
                         <DishStarsReview
-                            starsReview={4}
+                            starsReview={dishReviews.stars}
                             onChange={() => undefined}
                         />
                         <div className="ms-2">
@@ -111,7 +149,7 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                                 <h2>{`Nick: ${r.nick}`}</h2>
                                 <h3>{r.name}</h3>
                                 <p>{r.text}</p>
-                                <p>{r.purchaseDate}</p>
+                                <p>{`Date of purchase: ${r.purchaseDate}`}</p>
                             </ListGroup.Item>
                         ))}
                     </ListGroup>

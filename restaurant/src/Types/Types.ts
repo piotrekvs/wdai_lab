@@ -39,6 +39,7 @@ export type DishValidation = { // (-1) - not used yet, 0 - invalid, 1 - valid
 };
 
 export type TextReview = {
+    _id: string;
     dishId: string;
     id: string;
     stars: number;

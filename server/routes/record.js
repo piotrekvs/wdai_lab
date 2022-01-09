@@ -111,104 +111,49 @@ const dbConnect = dbo.getDb();
 // REVIEWS
 recordRoutes.route('/restaurant_wdai/reviews').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
-  var limit = 20;
-  var offset = 0;
-  if (typeof _req.query.limit !== 'undefined')
-    limit = parseInt(_req.query.limit);
-  if (typeof _req.query.offset !== 'undefined')
-    offset = parseInt(_req.query.offset);
-
-  var count = 0;
+  let dishId;
+  if (typeof _req.query.dishId !== 'undefined') {
+    dishId = _req.query.dishId;
+  } else {
+    res.status(400).send('Bad Request!');
+  }
+  const counter = await dbConnect.collection('reviews').countDocuments({ dishId: dishId });
   dbConnect
-    .collection('dishes')
-    .count(function (err, result) {
-      if (err) {
-        res.status(400).send('Error fetching listings!');
-      }
-      else {
-        count = result
-        // res.json({"count": result.length});
-      }
-    });
-
-  console.log(limit);
-  console.log(offset);
-  dbConnect
-    .collection('dishes')
-    .find() //{"deleted": false })
-    .skip(offset) // for pagination
-    .limit(limit)
+    .collection('reviews')
+    .find({ dishId: dishId})
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send('Error fetching listings!');
       } else {
-        res.json({ count, dishes: result });
+        res.json({counter, reviews: result});
       }
     });
 });
 
-
-// This section will help you create a new record.
-recordRoutes.route('/listings/recordSwipe').post(function (req, res) {
+recordRoutes.route('/restaurant_wdai/reviews').post(function (_req, res) {
   const dbConnect = dbo.getDb();
   const matchDocument = {
-    listing_id: req.body.id,
-    last_modified: new Date(),
-    session_id: req.body.session_id,
-    direction: req.body.direction,
+    dishId: _req.body.dishId,
+    id: _req.body.id,
+    stars: _req.body.stars,
+    nick: _req.body.nick,
+    name: _req.body.name,
+    text: _req.body.text,
+    purchaseDate: _req.body.purchaseDate,
   };
 
   dbConnect
-    .collection('matches')
+  .collection('reviews')
     .insertOne(matchDocument, function (err, result) {
       if (err) {
         res.status(400).send('Error inserting matches!');
       } else {
-        console.log(`Added a new match with id ${result.insertedId}`);
+        console.log(`Added a new review with id ${result.insertedId}`);
         res.status(204).send();
       }
     });
 });
 
-// This section will help you update a record by id.
-recordRoutes.route('/listings/updateLike').post(function (req, res) {
-  const dbConnect = dbo.getDb();
-  const listingQuery = { _id: req.body.id };
-  const updates = {
-    $inc: {
-      likes: 1,
-    },
-  };
 
-  dbConnect
-    .collection('listingsAndReviews')
-    .updateOne(listingQuery, updates, function (err, _result) {
-      if (err) {
-        res
-          .status(400)
-          .send(`Error updating likes on listing with id ${listingQuery.id}!`);
-      } else {
-        console.log('1 document updated');
-      }
-    });
-});
-
-// This section will help you delete a record.
-recordRoutes.route('/listings/delete/:id').delete((req, res) => {
-  const dbConnect = dbo.getDb();
-  const listingQuery = { listing_id: req.body.id };
-
-  dbConnect
-    .collection('listingsAndReviews')
-    .deleteOne(listingQuery, function (err, _result) {
-      if (err) {
-        res
-          .status(400)
-          .send(`Error deleting listing with id ${listingQuery.listing_id}!`);
-      } else {
-        console.log('1 document deleted');
-      }
-    });
-});
 
 module.exports = recordRoutes;

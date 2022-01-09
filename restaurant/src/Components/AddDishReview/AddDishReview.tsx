@@ -28,6 +28,7 @@ type State = {
 
 const AddDishReview: React.FC<Props> = (props: Props) => {
     const [reviewForm, setReviewForm] = useState<State['reviewForm']>(() => ({
+        _id: '',
         dishId: props.dishId,
         id: uuidv4(),
         stars: 0,
@@ -53,17 +54,19 @@ const AddDishReview: React.FC<Props> = (props: Props) => {
             purchaseDate: validatePurchaseDate(reviewForm.purchaseDate),
         };
         setIsValid(() => valid);
-        // if (!Object.values(valid).includes(false)) {
-        //     props.onAddReview(reviewForm);
-        //     setReviewForm(() => ({
-        //         id: uuidv4(),
-        //         stars: 0,
-        //         nick: '',
-        //         name: '',
-        //         text: '',
-        //         purchaseDate: '',
-        //     }));
-        // }
+        if (!Object.values(valid).includes(false)) {
+            props.onAddReview(reviewForm);
+            setReviewForm(() => ({
+                _id: '',
+                dishId: props.dishId,
+                id: uuidv4(),
+                stars: 0,
+                nick: '',
+                name: '',
+                text: '',
+                purchaseDate: '',
+            }));
+        }
     };
 
     return (
