@@ -13,7 +13,7 @@ const MenuPage = () => (
                 <h1>Welcome to our restaurant!</h1>
             </Col>
         </Row>
-        <Row>
+        <Row xs={1} sm={1} md={2}>
             <Col>
                 <h2>Kontakt:</h2>
                 <ListGroup variant="flush">
