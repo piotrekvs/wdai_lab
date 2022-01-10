@@ -1,3 +1,18 @@
+export type User = {
+    isLoggedIn: boolean;
+    id: string;
+    name: string;
+    email: string;
+    loggedInAs: 'guest' | 'client' | 'manager' | 'admin';
+    [key: string]: string | boolean;
+};
+
+interface IAuthContext {
+    user: User;
+    signIn: (jwtToken: string, callback?: VoidFunction) => void;
+    signOut: () => void;
+}
+
 export type Dish = {
     _id: string;
     id: string;
