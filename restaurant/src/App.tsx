@@ -8,7 +8,7 @@ import './App.css';
 import HeaderNavigation from './Components/HeaderNavigation/HeaderNavigation';
 import HomePage from './Pages/HomePage/HomePage';
 import MenuPages from './Pages/MenuPages/MenuPages';
-import { User } from './Types/Types';
+import { IAuthContext, User } from './Types/Types';
 import { AuthContext } from './Utils/UserContext';
 
 axios.defaults.baseURL = 'http://localhost:4000/';
@@ -56,13 +56,17 @@ export class App extends React.Component<Props, State> {
         localStorage.removeItem('jwt_token');
     };
 
+    // eslint-disable-next-line react/sort-comp
+    authContext: IAuthContext = {
+        user: this.state.user,
+        signIn: this.signIn,
+        signOut: this.signOut,
+    };
+
     render() {
         return (
             <div className="App">
-                <AuthContext.Provider // shouldComponentUpdate
-                    // eslint-disable-next-line react/jsx-no-constructed-context-values
-                    value={{ user: this.state.user, signIn: this.signIn, signOut: this.signOut }}
-                >
+                <AuthContext.Provider value={this.authContext}>
                     <HeaderNavigation
                         currency={this.state.currency}
                         setCurrency={(c) => this.setState({ currency: c })}
