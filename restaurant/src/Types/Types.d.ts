@@ -13,6 +13,17 @@ interface IAuthContext {
     signOut: () => void;
 }
 
+// eslint-disable-next-line max-len
+export type WithAuthHOC = <Props extends {authContext: IAuthContext}, T extends Component<Props>>(ChildComponent: (new(p: Props) => T) | FunctionComponent<Props>) => FunctionComponent<Omit<Props, 'authContext'>>;
+
+interface ICurrencyContext {
+    name: 'euro' | 'usd';
+    cnvFactor: number;
+}
+
+// eslint-disable-next-line max-len
+export type WithCurrencyHOC = <Props extends {currencyContext: ICurrencyContext}, T extends Component<Props>>(ChildComponent: (new(p: Props) => T) | FunctionComponent<Props>) => FunctionComponent<Omit<Props, 'currencyContext'>>;
+
 export type Dish = {
     _id: string;
     id: string;

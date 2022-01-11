@@ -29,7 +29,6 @@ const deleteDish = (id: Dish['id']) => axios({
 const itemsOnPageArray = [3, 7];
 
 type Props = {
-    currency: string;
     cartContent: CartContent[];
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
 };
@@ -167,8 +166,6 @@ export class DishesMenuPage extends React.Component<Props, State> {
                                 dish={dish}
                                 orderedQuantity={this.findOrderedQuantity(dish.id)}
                                 onAddToCart={this.props.onAddToCart}
-                                currency={this.props.currency}
-                                currencyFactor={this.props.currency === 'euro' ? 1 : 0.88}
                                 borderColor={this.handleBorderColor(dish.id)}
                                 onDelete={() => this.handleDelete(dish.id)}
                             />

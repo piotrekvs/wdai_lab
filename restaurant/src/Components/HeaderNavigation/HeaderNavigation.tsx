@@ -5,10 +5,12 @@ import {
 } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { ICurrencyContext } from '../../Types/Types';
+import { withCurrency } from '../../Utils/CurrencyContext';
 
 type Props = {
-    currency: string;
-    setCurrency: (currency: string) => void;
+    currencyContext: ICurrencyContext;
+    setCurrency: (name: ICurrencyContext['name']) => void;
     numOfOrderedDishes: number;
 }
 
@@ -31,13 +33,13 @@ const HeaderNavigation: React.FC<Props> = (props: Props) => (
                 </Nav.Link>
                 <NavDropdown title="Currency" id="nav-dropdown" menuVariant="dark">
                     <NavDropdown.Item
-                        active={props.currency === 'euro'}
+                        active={props.currencyContext.name === 'euro'}
                         onClick={() => props.setCurrency('euro')}
                     >
                         € Euro
                     </NavDropdown.Item>
                     <NavDropdown.Item
-                        active={props.currency === 'usd'}
+                        active={props.currencyContext.name === 'usd'}
                         onClick={() => props.setCurrency('usd')}
                     >
                         $ USD
@@ -63,4 +65,4 @@ const HeaderNavigation: React.FC<Props> = (props: Props) => (
     </Navbar>
 );
 
-export default HeaderNavigation;
+export default withCurrency(HeaderNavigation);

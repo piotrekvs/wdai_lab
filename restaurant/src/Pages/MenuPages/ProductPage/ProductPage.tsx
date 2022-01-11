@@ -33,7 +33,6 @@ type LocationState = {
 type Props = {
     cartContent: CartContent[];
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
-    currency: string;
 };
 
 type State = {
@@ -118,8 +117,6 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                         dish={dish}
                         orderedQuantity={findOrderedQuantity(dish.id)}
                         onAddToCart={props.onAddToCart}
-                        currency={props.currency}
-                        currencyFactor={props.currency === 'euro' ? 1 : 0.88}
                         borderColor=""
                         onDelete={() => undefined}
                     />

@@ -4,15 +4,15 @@ import {
 } from 'react-bootstrap';
 import { BsPlusLg, BsDashLg, BsXLg } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { Dish } from '../../Types/Types';
+import { Dish, ICurrencyContext } from '../../Types/Types';
+import { withCurrency } from '../../Utils/CurrencyContext';
 
 type Props = {
+    currencyContext: ICurrencyContext;
     withImage: boolean;
     dish: Dish;
     orderedQuantity: Dish['quantity'];
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
-    currency: string;
-    currencyFactor: number;
     borderColor: string;
     onDelete: () => void;
 };
@@ -53,8 +53,10 @@ export class DishCard extends React.Component<Props, State> {
     };
 
     displayPrice = () => {
-        const price = ((this.props.dish.priceEuro * this.props.currencyFactor) / 100).toFixed(2);
-        return `${price} ${this.props.currency === 'euro' ? '€' : '$'}`;
+        const { cnvFactor } = this.props.currencyContext;
+        const { priceEuro } = this.props.dish;
+        const price = ((priceEuro * cnvFactor) / 100).toFixed(2);
+        return `${price} ${this.props.currencyContext.name === 'euro' ? '€' : '$'}`;
     };
 
     render() {
@@ -137,4 +139,4 @@ export class DishCard extends React.Component<Props, State> {
     }
 }
 
-export default DishCard;
+export default withCurrency(DishCard);

@@ -7,8 +7,6 @@ type Props = {
     cartContent: CartContent[];
     // eslint-disable-next-line react/no-unused-prop-types
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
-    // eslint-disable-next-line react/no-unused-prop-types
-    currency: string;
 }
 
 const CartPage: React.FC<Props> = (props: Props) => (

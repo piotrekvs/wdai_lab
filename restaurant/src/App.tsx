@@ -8,7 +8,8 @@ import './App.css';
 import HeaderNavigation from './Components/HeaderNavigation/HeaderNavigation';
 import HomePage from './Pages/HomePage/HomePage';
 import MenuPages from './Pages/MenuPages/MenuPages';
-import { IAuthContext, User } from './Types/Types';
+import { IAuthContext, ICurrencyContext, User } from './Types/Types';
+import { CurrencyContext } from './Utils/CurrencyContext';
 import { AuthContext } from './Utils/UserContext';
 
 axios.defaults.baseURL = 'http://localhost:4000/';
@@ -17,7 +18,7 @@ type Props = {}
 
 type State = {
     user: User;
-    currency: string;
+    currency: ICurrencyContext;
     numOfOrderedDishes: number;
 }
 
@@ -30,7 +31,10 @@ export class App extends React.Component<Props, State> {
             email: '',
             loggedInAs: 'guest',
         },
-        currency: 'euro',
+        currency: {
+            name: 'euro',
+            cnvFactor: 1,
+        },
         numOfOrderedDishes: 0,
     };
 
@@ -56,6 +60,11 @@ export class App extends React.Component<Props, State> {
         localStorage.removeItem('jwt_token');
     };
 
+    handleChangeCurrency = (name: ICurrencyContext['name']): void => {
+        const cnvFactors = { euro: 1, usd: 0.88 };
+        this.setState({ currency: { name, cnvFactor: cnvFactors[name] } });
+    };
+
     // eslint-disable-next-line react/sort-comp
     authContext: IAuthContext = {
         user: this.state.user,
@@ -67,26 +76,26 @@ export class App extends React.Component<Props, State> {
         return (
             <div className="App">
                 <AuthContext.Provider value={this.authContext}>
-                    <HeaderNavigation
-                        currency={this.state.currency}
-                        setCurrency={(c) => this.setState({ currency: c })}
-                        numOfOrderedDishes={this.state.numOfOrderedDishes}
-                    />
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/home" element={<HomePage />} />
-                        <Route
-                            path="/menu/*"
-                            element={(
-                                <MenuPages
-                                    currency={this.state.currency}
-                                    setNumOfOrderedDishes={
-                                        (x) => this.setState({ numOfOrderedDishes: x })
-                                    }
-                                />
-                            )}
+                    <CurrencyContext.Provider value={this.state.currency}>
+                        <HeaderNavigation
+                            setCurrency={this.handleChangeCurrency}
+                            numOfOrderedDishes={this.state.numOfOrderedDishes}
                         />
-                    </Routes>
+                        <Routes>
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/home" element={<HomePage />} />
+                            <Route
+                                path="/menu/*"
+                                element={(
+                                    <MenuPages
+                                        setNumOfOrderedDishes={
+                                            (x) => this.setState({ numOfOrderedDishes: x })
+                                        }
+                                    />
+                                )}
+                            />
+                        </Routes>
+                    </CurrencyContext.Provider>
                 </AuthContext.Provider>
             </div>
         );

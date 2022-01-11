@@ -8,7 +8,6 @@ import DishesMenuPage from './DishesMenuPage/DishesMenuPage';
 import ProductPage from './ProductPage/ProductPage';
 
 type Props = {
-    currency: string;
     setNumOfOrderedDishes: (x: number) => void;
 };
 
@@ -50,7 +49,6 @@ export class MenuPages extends React.Component<Props, State> {
                     path=""
                     element={(
                         <DishesMenuPage
-                            currency={this.props.currency}
                             cartContent={this.state.cartContent}
                             onAddToCart={this.handleAddToCart}
                         />
@@ -62,7 +60,6 @@ export class MenuPages extends React.Component<Props, State> {
                         <ProductPage
                             cartContent={this.state.cartContent}
                             onAddToCart={this.handleAddToCart}
-                            currency={this.props.currency}
                         />
                     )}
                 />
@@ -72,7 +69,6 @@ export class MenuPages extends React.Component<Props, State> {
                         <CartPage
                             cartContent={this.state.cartContent}
                             onAddToCart={this.handleAddToCart}
-                            currency={this.props.currency}
                         />
                     )}
                 />
