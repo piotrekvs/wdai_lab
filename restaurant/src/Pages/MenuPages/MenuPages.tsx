@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import {
     CartContent, Dish,
 } from '../../Types/Types';
+import ErrorPage from '../ErrorPage/ErrorPage';
 import CartPage from './CartPage/CartPage';
 import DishesMenuPage from './DishesMenuPage/DishesMenuPage';
 import ProductPage from './ProductPage/ProductPage';
@@ -13,14 +14,11 @@ type Props = {
 
 type State = {
     cartContent: CartContent[];
-    isLoading: boolean;
 };
 
 export class MenuPages extends React.Component<Props, State> {
     state: State = {
         cartContent: [],
-        // eslint-disable-next-line react/no-unused-state
-        isLoading: false,
     };
 
     handleAddToCart = (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => {
@@ -72,6 +70,7 @@ export class MenuPages extends React.Component<Props, State> {
                         />
                     )}
                 />
+                <Route path="/*" element={<ErrorPage />} />
             </Routes>
         );
     }

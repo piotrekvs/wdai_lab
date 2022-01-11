@@ -39,7 +39,7 @@ type State = {
     cheapestDishId: Dish['id'];
     mostExpensiveDishId: Dish['id'];
     addDishModalShow: boolean;
-    addDishModalMount: boolean
+    addDishModalMount: boolean;
 };
 
 export class DishesMenuPage extends React.Component<Props, State> {

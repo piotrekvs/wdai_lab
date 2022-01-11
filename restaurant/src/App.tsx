@@ -6,6 +6,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import HeaderNavigation from './Components/HeaderNavigation/HeaderNavigation';
+import ErrorPage from './Pages/ErrorPage/ErrorPage';
 import HomePage from './Pages/HomePage/HomePage';
 import MenuPages from './Pages/MenuPages/MenuPages';
 import { IAuthContext, ICurrencyContext, User } from './Types/Types';
@@ -65,6 +66,8 @@ export class App extends React.Component<Props, State> {
         this.setState({ currency: { name, cnvFactor: cnvFactors[name] } });
     };
 
+    handleNumOfOrderedDishes = (x: number): void => this.setState({ numOfOrderedDishes: x });
+
     // eslint-disable-next-line react/sort-comp
     authContext: IAuthContext = {
         user: this.state.user,
@@ -88,12 +91,11 @@ export class App extends React.Component<Props, State> {
                                 path="/menu/*"
                                 element={(
                                     <MenuPages
-                                        setNumOfOrderedDishes={
-                                            (x) => this.setState({ numOfOrderedDishes: x })
-                                        }
+                                        setNumOfOrderedDishes={this.handleNumOfOrderedDishes}
                                     />
                                 )}
                             />
+                            <Route path="/*" element={<ErrorPage />} />
                         </Routes>
                     </CurrencyContext.Provider>
                 </AuthContext.Provider>
