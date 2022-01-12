@@ -3,7 +3,7 @@ export type User = {
     id: string;
     name: string;
     email: string;
-    loggedInAs: 'guest' | 'client' | 'manager' | 'admin';
+    loggedInAs: 'guest' | 'customer' | 'manager' | 'admin';
     [key: string]: string | boolean;
 };
 
