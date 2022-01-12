@@ -44,7 +44,7 @@ export class MenuPages extends React.Component<Props, State> {
         return (
             <Routes>
                 <Route
-                    path=""
+                    index
                     element={(
                         <DishesMenuPage
                             cartContent={this.state.cartContent}

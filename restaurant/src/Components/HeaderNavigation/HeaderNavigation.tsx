@@ -5,10 +5,12 @@ import {
 } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { ICurrencyContext } from '../../Types/Types';
+import { IAuthContext, ICurrencyContext } from '../../Types/Types';
+import { withAuth } from '../../Utils/AuthContext';
 import { withCurrency } from '../../Utils/CurrencyContext';
 
 type Props = {
+    authContext: IAuthContext;
     currencyContext: ICurrencyContext;
     setCurrency: (name: ICurrencyContext['name']) => void;
     numOfOrderedDishes: number;
@@ -60,9 +62,26 @@ const HeaderNavigation: React.FC<Props> = (props: Props) => (
                         {props.numOfOrderedDishes}
                     </Badge>
                 </Nav.Link>
+                {!props.authContext.user.isLoggedIn
+                    && (
+                        <>
+                            <Nav.Link
+                                as={Link}
+                                to="/auth/signin"
+                            >
+                                Sign in
+                            </Nav.Link>
+                            <Nav.Link
+                                as={Link}
+                                to="/auth/signup"
+                            >
+                                Sign up
+                            </Nav.Link>
+                        </>
+                    )}
             </Nav>
         </Container>
     </Navbar>
 );
 
-export default withCurrency(HeaderNavigation);
+export default withAuth(withCurrency(HeaderNavigation));

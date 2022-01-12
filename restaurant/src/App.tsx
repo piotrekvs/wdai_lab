@@ -1,17 +1,18 @@
-/* eslint-disable react/no-unused-class-component-methods */
-/* eslint-disable react/no-unused-state */
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import HeaderNavigation from './Components/HeaderNavigation/HeaderNavigation';
+// import AuthRedirect from './Pages/AuthPages/AuthRedirect';
+import SignIn from './Pages/AuthPages/SignIn';
+import SignUp from './Pages/AuthPages/SignUp';
 import ErrorPage from './Pages/ErrorPage/ErrorPage';
 import HomePage from './Pages/HomePage/HomePage';
 import MenuPages from './Pages/MenuPages/MenuPages';
 import { IAuthContext, ICurrencyContext, User } from './Types/Types';
 import { CurrencyContext } from './Utils/CurrencyContext';
-import { AuthContext } from './Utils/UserContext';
+import { AuthContext } from './Utils/AuthContext';
 
 axios.defaults.baseURL = 'http://localhost:4000/';
 
@@ -85,7 +86,7 @@ export class App extends React.Component<Props, State> {
                             numOfOrderedDishes={this.state.numOfOrderedDishes}
                         />
                         <Routes>
-                            <Route path="/" element={<HomePage />} />
+                            <Route index element={<HomePage />} />
                             <Route path="/home" element={<HomePage />} />
                             <Route
                                 path="/menu/*"
@@ -95,6 +96,11 @@ export class App extends React.Component<Props, State> {
                                     />
                                 )}
                             />
+                            <Route path="/auth">
+                                <Route index element={<Navigate to="signin" replace />} />
+                                <Route path="signin" element={<SignIn />} />
+                                <Route path="signup" element={<SignUp />} />
+                            </Route>
                             <Route path="/*" element={<ErrorPage />} />
                         </Routes>
                     </CurrencyContext.Provider>
