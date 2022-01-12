@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import {
     CartContent, Dish,
 } from '../../Types/Types';
+import RequireAuth from '../../Utils/RequireAuth';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import CartPage from './CartPage/CartPage';
 import DishesMenuPage from './DishesMenuPage/DishesMenuPage';
@@ -64,10 +65,12 @@ export class MenuPages extends React.Component<Props, State> {
                 <Route
                     path="/cart"
                     element={(
-                        <CartPage
-                            cartContent={this.state.cartContent}
-                            onAddToCart={this.handleAddToCart}
-                        />
+                        <RequireAuth customer>
+                            <CartPage
+                                cartContent={this.state.cartContent}
+                                onAddToCart={this.handleAddToCart}
+                            />
+                        </RequireAuth>
                     )}
                 />
                 <Route path="/*" element={<ErrorPage />} />

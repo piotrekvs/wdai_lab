@@ -1,10 +1,10 @@
+/* eslint-disable react/state-in-constructor */
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import HeaderNavigation from './Components/HeaderNavigation/HeaderNavigation';
-// import AuthRedirect from './Pages/AuthPages/AuthRedirect';
 import SignIn from './Pages/AuthPages/SignIn';
 import SignUp from './Pages/AuthPages/SignUp';
 import ErrorPage from './Pages/ErrorPage/ErrorPage';
@@ -19,26 +19,33 @@ axios.defaults.baseURL = 'http://localhost:4000/';
 type Props = {}
 
 type State = {
-    user: User;
+    authContext: IAuthContext;
     currency: ICurrencyContext;
     numOfOrderedDishes: number;
 }
 
 export class App extends React.Component<Props, State> {
-    state: State = {
-        user: {
-            isLoggedIn: false,
-            id: '',
-            name: '',
-            email: '',
-            loggedInAs: 'guest',
-        },
-        currency: {
-            name: 'euro',
-            cnvFactor: 1,
-        },
-        numOfOrderedDishes: 0,
-    };
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            authContext: {
+                user: {
+                    isLoggedIn: true,
+                    id: '',
+                    name: '',
+                    email: '',
+                    loggedInAs: 'admin',
+                },
+                signIn: this.signIn,
+                signOut: this.signOut,
+            },
+            currency: {
+                name: 'euro',
+                cnvFactor: 1,
+            },
+            numOfOrderedDishes: 0,
+        };
+    }
 
     componentDidMount() {
         const jwtToken = localStorage.getItem('jwt_token');
@@ -49,17 +56,23 @@ export class App extends React.Component<Props, State> {
         axios.defaults.headers.common.Authorization = `Bearer ${jwtToken}`;
         const decodedUser = jwtDecode<User>(jwtToken);
         delete decodedUser.iat;
-        this.setState({ user: { ...decodedUser, isLoggedIn: true } });
+        this.setState((s) => ({
+            authContext: { ...s.authContext, user: { ...decodedUser, isLoggedIn: true } },
+        }));
         if (callback) callback();
     };
 
-    signOut = (): void => {
-        this.setState({
-            user: {
-                isLoggedIn: false, id: '', name: '', email: '', loggedInAs: 'guest',
+    signOut = (callback?: VoidFunction): void => {
+        this.setState((s) => ({
+            authContext: {
+                ...s.authContext,
+                user: {
+                    isLoggedIn: false, id: '', name: '', email: '', loggedInAs: 'guest',
+                },
             },
-        });
+        }));
         localStorage.removeItem('jwt_token');
+        if (callback) callback();
     };
 
     handleChangeCurrency = (name: ICurrencyContext['name']): void => {
@@ -69,17 +82,10 @@ export class App extends React.Component<Props, State> {
 
     handleNumOfOrderedDishes = (x: number): void => this.setState({ numOfOrderedDishes: x });
 
-    // eslint-disable-next-line react/sort-comp
-    authContext: IAuthContext = {
-        user: this.state.user,
-        signIn: this.signIn,
-        signOut: this.signOut,
-    };
-
     render() {
         return (
             <div className="App">
-                <AuthContext.Provider value={this.authContext}>
+                <AuthContext.Provider value={this.state.authContext}>
                     <CurrencyContext.Provider value={this.state.currency}>
                         <HeaderNavigation
                             setCurrency={this.handleChangeCurrency}

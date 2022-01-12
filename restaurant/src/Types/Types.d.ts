@@ -10,7 +10,7 @@ export type User = {
 interface IAuthContext {
     user: User;
     signIn: (jwtToken: string, callback?: VoidFunction) => void;
-    signOut: () => void;
+    signOut: (callback?: VoidFunction) => void;
 }
 
 // eslint-disable-next-line max-len

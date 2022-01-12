@@ -2,18 +2,37 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-const RequireAuthClient = ({ children }: { children: JSX.Element }) => {
+type Props = {
+    customer?: boolean;
+    manager?: boolean;
+    admin?: boolean;
+    children: JSX.Element;
+};
+
+const RequireAuth: React.FC<Props> = (props) => {
     const authContext = useAuth();
     const location = useLocation();
+    const truthTable = [
+        (props.customer && authContext.user.loggedInAs === 'customer'),
+        (props.manager && authContext.user.loggedInAs === 'manager'),
+        (props.admin && authContext.user.loggedInAs === 'admin'),
+    ];
 
-    if (!authContext.user) {
-        // Redirect them to the /signin page, but save the current location they were
-        // trying to go to when they were redirected. This allows us to send them
-        // along to that page after they login, which is a nicer user experience
-        // than dropping them off on the home page.
-        return <Navigate to="/signin" state={{ from: location }} replace />;
+    if (!authContext.user.isLoggedIn) {
+        return <Navigate to="/auth/signin" state={{ from: location }} replace />;
     }
-    return children;
+
+    if (!truthTable.includes(true)) {
+        return <Navigate to="/error" replace />;
+    }
+
+    return props.children;
+};
+
+RequireAuth.defaultProps = {
+    customer: false,
+    manager: false,
+    admin: false,
 };
 
 export default RequireAuth;
