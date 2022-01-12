@@ -9,8 +9,7 @@ import AddDishForm1Step from './AddDishForm1Step';
 import AddDishForm2Step from './AddDishForm2Step';
 import {
     validateDishCategory, validateDishCuisine, validateDishDescription,
-    validateDishImage,
-    validateDishIngredient,
+    validateDishImage, validateDishIngredient,
     validateDishMeal, validateDishName, validateDishPriceEuro, validateDishQuantity,
 } from './AddDishInputValidation';
 

@@ -13,6 +13,9 @@ import MenuPages from './Pages/MenuPages/MenuPages';
 import { IAuthContext, ICurrencyContext, User } from './Types/Types';
 import { CurrencyContext } from './Utils/CurrencyContext';
 import { AuthContext } from './Utils/AuthContext';
+import ManageUsersPage from './Pages/ManageUsersPage/ManageUsersPage';
+import RequireGuest from './Utils/RequireGuest';
+import RequireAuth from './Utils/RequireAuth';
 
 axios.defaults.baseURL = 'http://localhost:4000/';
 
@@ -32,9 +35,9 @@ export class App extends React.Component<Props, State> {
                 user: {
                     isLoggedIn: true,
                     id: '',
-                    name: '',
+                    name: 'Piotrek',
                     email: '',
-                    loggedInAs: 'admin',
+                    loggedInAs: 'manager',
                 },
                 signIn: this.signIn,
                 signOut: this.signOut,
@@ -102,11 +105,15 @@ export class App extends React.Component<Props, State> {
                                     />
                                 )}
                             />
-                            <Route path="/auth">
+                            <Route path="/auth" element={<RequireGuest />}>
                                 <Route index element={<Navigate to="signin" replace />} />
                                 <Route path="signin" element={<SignIn />} />
                                 <Route path="signup" element={<SignUp />} />
                             </Route>
+                            <Route
+                                path="/manage_users"
+                                element={<RequireAuth admin><ManageUsersPage /></RequireAuth>}
+                            />
                             <Route path="/*" element={<ErrorPage />} />
                         </Routes>
                     </CurrencyContext.Provider>

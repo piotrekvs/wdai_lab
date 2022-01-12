@@ -1,14 +1,15 @@
 import React from 'react';
-import './DishesMenuPage.css';
+import '../DishesMenuPage/DishesMenuPage.css';
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import {
-    CartContent,
     Dish, Pagination as PaginationType,
 } from '../../../Types/Types';
-import DishCard from '../../../Components/ProductCard/DishCard';
+import DishCardAdd from '../../../Components/ProductCard/DishCardAdd';
+import AddDishModal from '../../../Components/AddDishModal/AddDishModal';
 import PaginationButtons from '../../../Components/PaginationButtons/PaginationButtons';
 import DishesMenuToolbar from '../../../Components/DishesMenuToolbar/DishesMenuToolbar';
+import DishCardEdit from '../../../Components/ProductCard/DishCardEdit';
 
 const getDishes = (offset: number, limit: number) => axios({
     url: '/restaurant_wdai/dishes',
@@ -19,21 +20,23 @@ const getDishes = (offset: number, limit: number) => axios({
     },
 });
 
-const itemsOnPageArray = [4, 8];
+const deleteDish = (id: Dish['id']) => axios({
+    url: `/restaurant_wdai/dishes/${id}`,
+    method: 'delete',
+});
 
-type Props = {
-    cartContent: CartContent[];
-    onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
-};
+const itemsOnPageArray = [3, 7];
+
+type Props = {};
 
 type State = {
     dishes: Dish[];
     pagination: PaginationType;
-    cheapestDishId: Dish['id'];
-    mostExpensiveDishId: Dish['id'];
+    addDishModalShow: boolean;
+    addDishModalMount: boolean;
 };
 
-export class DishesMenuPage extends React.Component<Props, State> {
+export class ManageDishesPage extends React.Component<Props, State> {
     state: State = {
         dishes: [],
         pagination: {
@@ -42,8 +45,8 @@ export class DishesMenuPage extends React.Component<Props, State> {
             pages: 0,
             active: 0,
         },
-        cheapestDishId: '',
-        mostExpensiveDishId: '',
+        addDishModalShow: false,
+        addDishModalMount: false,
     };
 
     componentDidMount() {
@@ -75,45 +78,22 @@ export class DishesMenuPage extends React.Component<Props, State> {
                     },
                 });
             });
-            this.findMostLeastExpensiveDish();
         } catch (e) {
             // TODO: handle errors
         }
     };
 
-    findMostLeastExpensiveDish = () => {
-        this.setState((s) => {
-            const mostExpensiveDish = { price: 0, id: '' };
-            const cheapestDish = { price: Infinity, id: '' };
-            s.dishes.forEach((val) => {
-                if (mostExpensiveDish.price < val.priceEuro) {
-                    mostExpensiveDish.price = val.priceEuro;
-                    mostExpensiveDish.id = val.id;
-                }
-                if (cheapestDish.price > val.priceEuro) {
-                    cheapestDish.price = val.priceEuro;
-                    cheapestDish.id = val.id;
-                }
-            });
-            return ({
-                cheapestDishId: cheapestDish.id,
-                mostExpensiveDishId: mostExpensiveDish.id,
-            });
-        });
+    handleAddDishBtn = () => {
+        this.setState({ addDishModalShow: true, addDishModalMount: true });
     };
 
-    handleBorderColor = (id: Dish['id']) => {
-        if (this.state.cheapestDishId === id) {
-            return 'danger';
-        } if (this.state.mostExpensiveDishId === id) {
-            return 'success';
-        }
-        return '';
+    handleAddNewDish = () => {
+        this.fetchProducts();
     };
 
-    findOrderedQuantity = (id: Dish['id']) => {
-        const itemIdx = this.props.cartContent.findIndex((item) => item.id === id);
-        return itemIdx === -1 ? 0 : this.props.cartContent[itemIdx].quantity;
+    handleDelete = async (id: Dish['id']) => {
+        await deleteDish(id);
+        this.fetchProducts();
     };
 
     handleActiveChange = (active: number) => {
@@ -134,14 +114,12 @@ export class DishesMenuPage extends React.Component<Props, State> {
                         onChangeItemsOnPage={(i) => this.handleChangeItemsOnPage(i)}
                     />
                     <Container className="dishes-container">
+                        <DishCardAdd onClick={this.handleAddDishBtn} />
                         {this.state.dishes.map((dish: Dish) => (
-                            <DishCard
-                                withImage
+                            <DishCardEdit
                                 key={dish.id}
                                 dish={dish}
-                                orderedQuantity={this.findOrderedQuantity(dish.id)}
-                                onAddToCart={this.props.onAddToCart}
-                                borderColor={this.handleBorderColor(dish.id)}
+                                onDelete={() => this.handleDelete(dish.id)}
                             />
                         ))}
                     </Container>
@@ -151,9 +129,17 @@ export class DishesMenuPage extends React.Component<Props, State> {
                         onChange={this.handleActiveChange}
                     />
                 </div>
+                {this.state.addDishModalMount && (
+                    <AddDishModal
+                        show={this.state.addDishModalShow}
+                        onAdd={this.handleAddNewDish}
+                        onClose={() => this.setState({ addDishModalShow: false })}
+                        onExited={() => this.setState({ addDishModalMount: false })}
+                    />
+                )}
             </div>
         );
     }
 }
 
-export default DishesMenuPage;
+export default ManageDishesPage;

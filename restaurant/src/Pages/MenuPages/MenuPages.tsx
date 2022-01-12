@@ -7,6 +7,7 @@ import RequireAuth from '../../Utils/RequireAuth';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import CartPage from './CartPage/CartPage';
 import DishesMenuPage from './DishesMenuPage/DishesMenuPage';
+import ManageDishesPage from './ManageDishesPage/ManageDishesPage';
 import ProductPage from './ProductPage/ProductPage';
 
 type Props = {
@@ -56,10 +57,12 @@ export class MenuPages extends React.Component<Props, State> {
                 <Route
                     path="/product/:productId"
                     element={(
-                        <ProductPage
-                            cartContent={this.state.cartContent}
-                            onAddToCart={this.handleAddToCart}
-                        />
+                        <RequireAuth customer manager admin>
+                            <ProductPage
+                                cartContent={this.state.cartContent}
+                                onAddToCart={this.handleAddToCart}
+                            />
+                        </RequireAuth>
                     )}
                 />
                 <Route
@@ -70,6 +73,22 @@ export class MenuPages extends React.Component<Props, State> {
                                 cartContent={this.state.cartContent}
                                 onAddToCart={this.handleAddToCart}
                             />
+                        </RequireAuth>
+                    )}
+                />
+                <Route
+                    path="/manage_dishes"
+                    element={(
+                        <RequireAuth manager admin>
+                            <ManageDishesPage />
+                        </RequireAuth>
+                    )}
+                />
+                <Route
+                    path="/manage_dishes/product/:productId"
+                    element={(
+                        <RequireAuth manager admin>
+                            <ManageDishesPage />
                         </RequireAuth>
                     )}
                 />

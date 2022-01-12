@@ -2,19 +2,20 @@ import React from 'react';
 import {
     Button, Card, ListGroup, ListGroupItem,
 } from 'react-bootstrap';
-import { BsPlusLg, BsDashLg, BsXLg } from 'react-icons/bs';
+import { BsPlusLg, BsDashLg } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { Dish, ICurrencyContext } from '../../Types/Types';
+import { Dish, IAuthContext, ICurrencyContext } from '../../Types/Types';
+import { withAuth } from '../../Utils/AuthContext';
 import { withCurrency } from '../../Utils/CurrencyContext';
 
 type Props = {
     currencyContext: ICurrencyContext;
+    authContext: IAuthContext;
     withImage: boolean;
     dish: Dish;
     orderedQuantity: Dish['quantity'];
     onAddToCart: (id: Dish['id'], quantity: Dish['quantity'], dish: Dish) => void;
     borderColor: string;
-    onDelete: () => void;
 };
 
 type State = {
@@ -32,15 +33,6 @@ export class DishCard extends React.Component<Props, State> {
             this.props.onAddToCart(this.props.dish.id, orderedQuantity, this.props.dish);
             return { orderedQuantity };
         });
-    };
-
-    handleDeleteBtn = () => {
-        this.setState(() => {
-            const orderedQuantity = 0;
-            this.props.onAddToCart(this.props.dish.id, orderedQuantity, this.props.dish);
-            return { orderedQuantity };
-        });
-        this.props.onDelete();
     };
 
     isLittleAvailable = () => {
@@ -67,25 +59,16 @@ export class DishCard extends React.Component<Props, State> {
             >
                 {this.props.withImage
                 && (
-                    <>
-                        <Button
-                            className="position-absolute top-0 end-0 p-0"
-                            variant="danger"
-                            onClick={this.handleDeleteBtn}
-                        >
-                            <BsXLg size={24} />
-                        </Button>
-                        <Link
-                            to={`product/${this.props.dish.id}`}
-                            state={{ dish: this.props.dish }}
-                        >
-                            <Card.Img
-                                height="180px"
-                                variant="top"
-                                src={this.props.dish.images[0]}
-                            />
-                        </Link>
-                    </>
+                    <Link
+                        to={`product/${this.props.dish.id}`}
+                        state={{ dish: this.props.dish }}
+                    >
+                        <Card.Img
+                            height="180px"
+                            variant="top"
+                            src={this.props.dish.images[0]}
+                        />
+                    </Link>
                 )}
                 <Card.Body>
                     <Card.Title>{this.props.dish.name.toUpperCase()}</Card.Title>
@@ -112,31 +95,33 @@ export class DishCard extends React.Component<Props, State> {
                 </ListGroup>
                 <Card.Body>
                     <Card.Title>{this.displayPrice()}</Card.Title>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <Button
-                            className="m-1"
-                            disabled={this.state.orderedQuantity <= 0}
-                            onClick={() => this.handleAddBtn(-1)}
-                        >
-                            <BsDashLg />
-                        </Button>
-                        <Card.Text className="d-inline m-1">
-                            Added:
-                            {' '}
-                            {this.state.orderedQuantity}
-                        </Card.Text>
-                        <Button
-                            className="m-1"
-                            disabled={this.state.orderedQuantity >= this.props.dish.quantity}
-                            onClick={() => this.handleAddBtn(1)}
-                        >
-                            <BsPlusLg />
-                        </Button>
-                    </div>
+                    {this.props.authContext.user.loggedInAs === 'customer' && (
+                        <div className="d-flex justify-content-between align-items-center">
+                            <Button
+                                className="m-1"
+                                disabled={this.state.orderedQuantity <= 0}
+                                onClick={() => this.handleAddBtn(-1)}
+                            >
+                                <BsDashLg />
+                            </Button>
+                            <Card.Text className="d-inline m-1">
+                                Added:
+                                {' '}
+                                {this.state.orderedQuantity}
+                            </Card.Text>
+                            <Button
+                                className="m-1"
+                                disabled={this.state.orderedQuantity >= this.props.dish.quantity}
+                                onClick={() => this.handleAddBtn(1)}
+                            >
+                                <BsPlusLg />
+                            </Button>
+                        </div>
+                    )}
                 </Card.Body>
             </Card>
         );
     }
 }
 
-export default withCurrency(DishCard);
+export default withAuth(withCurrency(DishCard));
