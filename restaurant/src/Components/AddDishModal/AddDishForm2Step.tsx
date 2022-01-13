@@ -11,11 +11,11 @@ type Props = {
     ingredients: DishInput['ingredients'];
     addIngredient: (val: string) => void;
     deleteIngredient: (val: number) => void;
-    ingredientsValidation: -1 | 0 | 1;
+    ingredientsValidation: boolean;
     images: DishInput['images'];
     addImage: (val: string) => void;
     deleteImage: (val: number) => void;
-    imagesValidation: -1 | 0 | 1;
+    imagesValidation: boolean;
 }
 
 const AddDishForm2Step: React.FC<Props> = (props: Props) => {

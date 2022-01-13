@@ -21,16 +21,17 @@ const addNewDish = (newDish: Dish) => axios({
 
 type Props = {
     show: boolean;
-    onAdd: () => void;
+    onChange: () => void;
     onClose: () => void;
     onExited: () => void;
+    dish?: Dish;
 };
 
 type State = {
     dish: DishInput;
-    validation: DishValidation;
+    isValid: DishValidation;
     tabActiveKey: string;
-    isStep1Valid: boolean;
+    isEdit: boolean;
 };
 
 const STEP_1 = 'step1';
@@ -50,30 +51,47 @@ export class AddDishModal extends React.Component<Props, State> {
             description: '',
             images: [],
         },
-        validation: { // (-1) - not used yet, 0 - invalid, 1 - valid
-            id: -1,
-            name: -1,
-            cuisine: -1,
-            meal: -1,
-            category: -1,
-            ingredients: -1,
-            quantity: -1,
-            priceEuro: -1,
-            description: -1,
-            images: -1,
+        isValid: {
+            id: true,
+            name: true,
+            cuisine: true,
+            meal: true,
+            category: true,
+            ingredients: true,
+            quantity: true,
+            priceEuro: true,
+            description: true,
+            images: true,
         },
         tabActiveKey: STEP_1,
-        isStep1Valid: false,
+        isEdit: false,
     };
 
+    componentDidMount() {
+        this.setState((s) => {
+            if (this.props.dish !== undefined) {
+                return {
+                    ...s,
+                    isEdit: true,
+                    dish: {
+                        ...this.props.dish,
+                        ingredients: [...this.props.dish.ingredients],
+                        quantity: this.props.dish.quantity.toString(),
+                        priceEuro: this.props.dish.priceEuro.toString(),
+                        images: [...this.props.dish.images],
+                    },
+                };
+            }
+            return { ...s, dish: { ...s.dish, id: uuidv4() } };
+        });
+    }
+
     handleTabActiveKey = (k: string | null) => {
-        if (k !== null) {
-            this.setState({ tabActiveKey: k });
-        }
+        if (k !== null) this.setState({ tabActiveKey: k });
     };
 
     handleNextBtn = () => {
-        const validate = {
+        const valid = {
             name: validateDishName(this.state.dish.name),
             cuisine: validateDishCuisine(this.state.dish.cuisine),
             meal: validateDishMeal(this.state.dish.meal),
@@ -82,53 +100,40 @@ export class AddDishModal extends React.Component<Props, State> {
             quantity: validateDishQuantity(this.state.dish.quantity),
             priceEuro: validateDishPriceEuro(this.state.dish.priceEuro),
         };
-        let isStep1Valid = true;
-        Object.values(validate).forEach((val) => {
-            if (val === 0) isStep1Valid = false;
-        });
-        this.setState((s) => ({
-            validation: {
-                ...s.validation,
-                ...validate,
-            },
-            isStep1Valid,
-        }));
-        if (isStep1Valid) {
+        if (!Object.values(valid).includes(false)) {
             this.handleTabActiveKey(STEP_2);
         }
+        this.setState((s) => ({ isValid: { ...s.isValid, ...valid } }));
     };
 
     handleBackBtn = () => {
         this.handleTabActiveKey(STEP_1);
     };
 
-    handleAddBtn = async () => {
+    handleSubmitBtn = async () => {
         if (this.state.dish.ingredients.length < 2) {
-            this.setState((s) => ({ validation: { ...s.validation, ingredients: 0 } }));
+            this.setState((s) => ({ isValid: { ...s.isValid, ingredients: false } }));
             return;
         }
         if (this.state.dish.images.length < 1) {
-            this.setState((s) => ({ validation: { ...s.validation, images: 0 } }));
+            this.setState((s) => ({ isValid: { ...s.isValid, images: false } }));
             return;
         }
-        if (this.state.isStep1Valid) {
-            const newDish: Dish = {
-                _id: '',
-                id: this.state.dish.id,
-                name: this.state.dish.name,
-                cuisine: this.state.dish.cuisine,
-                meal: this.state.dish.meal,
-                category: this.state.dish.category,
-                ingredients: [...this.state.dish.ingredients],
-                quantity: parseInt(this.state.dish.quantity, 10),
-                priceEuro: Math.floor(parseFloat(this.state.dish.priceEuro) * 100),
-                description: this.state.dish.description,
-                images: [...this.state.dish.images],
-            };
+        const newDish: Dish = {
+            _id: '',
+            ...this.state.dish,
+            ingredients: [...this.state.dish.ingredients],
+            quantity: parseInt(this.state.dish.quantity, 10),
+            priceEuro: Math.floor(parseFloat(this.state.dish.priceEuro) * 100),
+            images: [...this.state.dish.images],
+        };
+        if (this.state.isEdit) {
+            // editDish()
+        } else {
             await addNewDish(newDish);
-            this.props.onAdd();
-            this.props.onClose();
         }
+        this.props.onChange();
+        this.props.onClose();
     };
 
     handleOnChangeValues = (key: keyof DishInput, val: string) => {
@@ -138,8 +143,8 @@ export class AddDishModal extends React.Component<Props, State> {
     handleAddIngredient = (val: string) => {
         const validation = validateDishIngredient(val);
         this.setState((s) => ({
-            validation: {
-                ...s.validation,
+            isValid: {
+                ...s.isValid,
                 ingredients: validation,
             },
         }));
@@ -159,8 +164,8 @@ export class AddDishModal extends React.Component<Props, State> {
     handleAddImage = (val: string) => {
         const validation = validateDishImage(val);
         this.setState((s) => ({
-            validation: {
-                ...s.validation,
+            isValid: {
+                ...s.isValid,
                 images: validation,
             },
         }));
@@ -200,7 +205,7 @@ export class AddDishModal extends React.Component<Props, State> {
                             <AddDishForm1Step
                                 values={this.state.dish}
                                 onChangeValues={this.handleOnChangeValues}
-                                validation={this.state.validation}
+                                validation={this.state.isValid}
                             />
                         </Tab>
                         <Tab eventKey="step2" title="Step 2" disabled>
@@ -208,11 +213,11 @@ export class AddDishModal extends React.Component<Props, State> {
                                 ingredients={this.state.dish.ingredients}
                                 addIngredient={this.handleAddIngredient}
                                 deleteIngredient={this.handleDeleteIngredient}
-                                ingredientsValidation={this.state.validation.ingredients}
+                                ingredientsValidation={this.state.isValid.ingredients}
                                 images={this.state.dish.images}
                                 addImage={this.handleAddImage}
                                 deleteImage={this.handleDeleteImage}
-                                imagesValidation={this.state.validation.images}
+                                imagesValidation={this.state.isValid.images}
                             />
                         </Tab>
                     </Tabs>
@@ -224,7 +229,12 @@ export class AddDishModal extends React.Component<Props, State> {
                     {this.state.tabActiveKey === STEP_2 && (
                         <>
                             <Button variant="secondary" onClick={this.handleBackBtn}>Back</Button>
-                            <Button variant="primary" onClick={this.handleAddBtn}>Add Dish</Button>
+                            <Button
+                                variant="primary"
+                                onClick={this.handleSubmitBtn}
+                            >
+                                {this.state.isEdit ? 'Submit edit' : 'Add Dish'}
+                            </Button>
                         </>
                     )}
                 </Modal.Footer>

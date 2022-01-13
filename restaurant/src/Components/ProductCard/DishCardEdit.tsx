@@ -8,6 +8,7 @@ import { useCurrency } from '../../Utils/CurrencyContext';
 type Props = {
     dish: Dish;
     onDelete: () => void;
+    onEdit: () => void;
 }
 
 const DishCardEdit: React.FC<Props> = (props: Props) => {
@@ -47,6 +48,7 @@ const DishCardEdit: React.FC<Props> = (props: Props) => {
                 <Card.Title>{displayPrice()}</Card.Title>
                 <Button
                     className="m-1"
+                    onClick={props.onEdit}
                 >
                     Edytuj
                 </Button>

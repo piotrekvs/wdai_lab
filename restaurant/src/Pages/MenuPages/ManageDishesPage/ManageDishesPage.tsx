@@ -34,6 +34,9 @@ type State = {
     pagination: PaginationType;
     addDishModalShow: boolean;
     addDishModalMount: boolean;
+    editDishModalShow: boolean;
+    editDishModalMount: boolean;
+    dishToEdit: Dish | undefined;
 };
 
 export class ManageDishesPage extends React.Component<Props, State> {
@@ -47,6 +50,9 @@ export class ManageDishesPage extends React.Component<Props, State> {
         },
         addDishModalShow: false,
         addDishModalMount: false,
+        editDishModalShow: false,
+        editDishModalMount: false,
+        dishToEdit: undefined,
     };
 
     componentDidMount() {
@@ -87,7 +93,7 @@ export class ManageDishesPage extends React.Component<Props, State> {
         this.setState({ addDishModalShow: true, addDishModalMount: true });
     };
 
-    handleAddNewDish = () => {
+    handleOnChangeDish = () => {
         this.fetchProducts();
     };
 
@@ -102,6 +108,10 @@ export class ManageDishesPage extends React.Component<Props, State> {
 
     handleChangeItemsOnPage = (itemsOnPage: PaginationType['itemsOnPage']) => {
         this.setState((s) => ({ pagination: { ...s.pagination, itemsOnPage, active: 0 } }));
+    };
+
+    handleEdit = (dish: Dish): void => {
+        this.setState({ dishToEdit: dish, editDishModalShow: true, editDishModalMount: true });
     };
 
     render() {
@@ -120,6 +130,7 @@ export class ManageDishesPage extends React.Component<Props, State> {
                                 key={dish.id}
                                 dish={dish}
                                 onDelete={() => this.handleDelete(dish.id)}
+                                onEdit={() => this.handleEdit(dish)}
                             />
                         ))}
                     </Container>
@@ -132,9 +143,20 @@ export class ManageDishesPage extends React.Component<Props, State> {
                 {this.state.addDishModalMount && (
                     <AddDishModal
                         show={this.state.addDishModalShow}
-                        onAdd={this.handleAddNewDish}
+                        onChange={this.handleOnChangeDish}
                         onClose={() => this.setState({ addDishModalShow: false })}
                         onExited={() => this.setState({ addDishModalMount: false })}
+                    />
+                )}
+                {this.state.editDishModalMount && (
+                    <AddDishModal
+                        show={this.state.editDishModalShow}
+                        onChange={this.handleOnChangeDish}
+                        onClose={() => this.setState(
+                            { editDishModalShow: false, dishToEdit: undefined },
+                        )}
+                        onExited={() => this.setState({ editDishModalMount: false })}
+                        dish={this.state.dishToEdit}
                     />
                 )}
             </div>

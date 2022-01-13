@@ -51,17 +51,17 @@ export type DishInput = {
     images: string[];
 };
 
-export type DishValidation = { // (-1) - not used yet, 0 - invalid, 1 - valid
-    id: -1 | 0 | 1;
-    name: -1 | 0 | 1;
-    cuisine: -1 | 0 | 1;
-    meal: -1 | 0 | 1;
-    category: -1 | 0 | 1;
-    ingredients: -1 | 0 | 1;
-    quantity: -1 | 0 | 1;
-    priceEuro: -1 | 0 | 1;
-    description: -1 | 0 | 1;
-    images: -1 | 0 | 1;
+export type DishValidation = {
+    id: boolean;
+    name: boolean;
+    cuisine: boolean;
+    meal: boolean;
+    category: boolean;
+    ingredients: boolean;
+    quantity: boolean;
+    priceEuro: boolean;
+    description: boolean;
+    images: boolean;
 };
 
 export type TextReview = {
