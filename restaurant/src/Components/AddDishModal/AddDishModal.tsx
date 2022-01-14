@@ -19,6 +19,11 @@ const addNewDish = (newDish: Dish) => axios({
     data: newDish,
 });
 
+const deleteDish = (id: Dish['id']) => axios({
+    url: `/restaurant_wdai/dishes/${id}`,
+    method: 'delete',
+});
+
 type Props = {
     show: boolean;
     onChange: () => void;
@@ -127,11 +132,8 @@ export class AddDishModal extends React.Component<Props, State> {
             priceEuro: Math.floor(parseFloat(this.state.dish.priceEuro) * 100),
             images: [...this.state.dish.images],
         };
-        if (this.state.isEdit) {
-            // editDish()
-        } else {
-            await addNewDish(newDish);
-        }
+        if (this.state.isEdit) await deleteDish(newDish.id);
+        await addNewDish(newDish);
         this.props.onChange();
         this.props.onClose();
     };

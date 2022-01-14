@@ -15,8 +15,7 @@ app.use(require('./routes/dishes'));
 app.use(require('./routes/auth'));
 
 // Global error handling
-app.use(function (err, _req, res) {
-  console.error(err.stack);
+app.use(function (_req, res) {
   res.status(500).send('Something broke!');
 });
 

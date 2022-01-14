@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import {
     Button, Card, Container, Form,
 } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Utils/AuthContext';
 import { validateEmail, validateName, validatePassword } from './AuthValidation';
 
 type Props = {};
@@ -22,13 +24,15 @@ type State = {
     response: boolean;
 };
 
-const addNewUser = (user: State['input']) => axios({
+const createAccount = (user: {name: string, email: string, password: string}) => axios({
     url: '/restaurant_wdai/auth/signup',
     method: 'post',
     data: user,
 });
 
 const SignUp: React.FC<Props> = () => {
+    const navigate = useNavigate();
+    const authContext = useAuth();
     const [input, setInput] = useState<State['input']>({
         name: '',
         email: '',
@@ -56,8 +60,16 @@ const SignUp: React.FC<Props> = () => {
         };
         setIsValid(valid);
         if (!Object.values(valid).includes(false)) {
-            // const res = await addNewUser(input);
-            setResponse(true);
+            try {
+                const res = await createAccount({
+                    name: input.name,
+                    email: input.email,
+                    password: input.password1,
+                });
+                authContext.signIn(res.data.token, () => navigate('/home', { replace: true }));
+            } catch (e) {
+                setResponse(true);
+            }
         }
     };
 

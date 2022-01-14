@@ -1,8 +1,10 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import {
     Button, Card, Container, Form,
 } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Utils/AuthContext';
 import { validateEmail, validatePassword } from './AuthValidation';
 
 type Props = {}
@@ -15,12 +17,23 @@ type State = {
     response: boolean;
 }
 
+const authorizeAccount = (input: State['input']) => axios({
+    url: '/restaurant_wdai/auth/signin',
+    method: 'post',
+    data: input,
+});
+
 const SignIn: React.FC<Props> = () => {
+    const navigate = useNavigate();
+    const authContext = useAuth();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const location = useLocation() as any;
+    const from = location.state?.from?.pathname || '/home';
+
     const [input, setInput] = useState<State['input']>({
         email: '',
         password: '',
     });
-
     const [response, setResponse] = useState<State['response']>(false);
 
     const handleInput = (key: keyof State['input'], val: string) => {
@@ -31,6 +44,14 @@ const SignIn: React.FC<Props> = () => {
         const isVaild = validateEmail(input.email)
                         && validatePassword(input.password, input.password);
         setResponse(!isVaild);
+        if (isVaild) {
+            try {
+                const res = await authorizeAccount(input);
+                authContext.signIn(res.data.token, () => navigate(from, { replace: true }));
+            } catch (e) {
+                setResponse(true);
+            }
+        }
     };
 
     return (

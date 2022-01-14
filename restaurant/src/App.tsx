@@ -33,11 +33,11 @@ export class App extends React.Component<Props, State> {
         this.state = {
             authContext: {
                 user: {
-                    isLoggedIn: true,
-                    id: '',
-                    name: 'Piotrek',
+                    isLoggedIn: false,
+                    _id: '',
+                    name: '',
                     email: '',
-                    loggedInAs: 'manager',
+                    loggedInAs: 'guest',
                 },
                 signIn: this.signIn,
                 signOut: this.signOut,
@@ -57,6 +57,7 @@ export class App extends React.Component<Props, State> {
 
     signIn = (jwtToken: string, callback?: VoidFunction): void => {
         axios.defaults.headers.common.Authorization = `Bearer ${jwtToken}`;
+        localStorage.setItem('jwt_token', jwtToken);
         const decodedUser = jwtDecode<User>(jwtToken);
         delete decodedUser.iat;
         this.setState((s) => ({
@@ -70,10 +71,11 @@ export class App extends React.Component<Props, State> {
             authContext: {
                 ...s.authContext,
                 user: {
-                    isLoggedIn: false, id: '', name: '', email: '', loggedInAs: 'guest',
+                    isLoggedIn: false, _id: '', name: '', email: '', loggedInAs: 'guest',
                 },
             },
         }));
+        delete axios.defaults.headers.common.Authorization;
         localStorage.removeItem('jwt_token');
         if (callback) callback();
     };

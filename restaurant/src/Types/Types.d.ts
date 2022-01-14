@@ -1,6 +1,6 @@
 export type User = {
     isLoggedIn: boolean;
-    id: string;
+    _id: string;
     name: string;
     email: string;
     loggedInAs: 'guest' | 'customer' | 'manager' | 'admin';

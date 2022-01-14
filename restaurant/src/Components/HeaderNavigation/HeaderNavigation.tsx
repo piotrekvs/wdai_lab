@@ -85,7 +85,7 @@ const HeaderNavigation: React.FC<Props> = (props: Props) => {
                                 {authContext.user.name}
                             </NavDropdown.Item>
                             <NavDropdown.Item className="text-center" disabled>
-                                {authContext.user.loggedInAs.toUpperCase()}
+                                {/* {authContext.user.loggedInAs.toUpperCase()} */}
                             </NavDropdown.Item>
                             <div className="d-flex justify-content-center mt-2">
                                 <Button
