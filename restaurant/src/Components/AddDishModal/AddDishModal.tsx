@@ -77,7 +77,7 @@ export class AddDishModal extends React.Component<Props, State> {
                         ...this.props.dish,
                         ingredients: [...this.props.dish.ingredients],
                         quantity: this.props.dish.quantity.toString(),
-                        priceEuro: this.props.dish.priceEuro.toString(),
+                        priceEuro: (this.props.dish.priceEuro / 100).toString(),
                         images: [...this.props.dish.images],
                     },
                 };
@@ -193,7 +193,7 @@ export class AddDishModal extends React.Component<Props, State> {
                 scrollable
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add dish</Modal.Title>
+                    <Modal.Title>{this.state.isEdit ? 'Edit Dish' : 'Add Dish'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Tabs
