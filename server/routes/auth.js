@@ -16,9 +16,10 @@ router.post('/restaurant_wdai/auth/signin', async (_req, res) => {
         user.password = '';
         user.salt = '';
         user.loggedInAs = '';
+        user.isBanned = true;
     }
 
-    const { _id, password, salt, loggedInAs, name } = user;
+    const { _id, password, salt, loggedInAs, name, isBanned } = user;
     const pepper = process.env.PEPPER;
     const hashedPassword = crypto.pbkdf2Sync(`${pepper}${_req.body.password}`, salt, 30000, 64, 'sha256').toString('base64');
 
@@ -28,6 +29,7 @@ router.post('/restaurant_wdai/auth/signin', async (_req, res) => {
                 _id,
                 name,
                 loggedInAs,
+                isBanned,
             },
             process.env.JWT_SECRET,
         );
@@ -53,17 +55,19 @@ router.post('/restaurant_wdai/auth/signup', async (_req, res) => {
         password: hashedPassword,
         salt,
         loggedInAs: 'customer',
+        isBanned: false,
     };
     
     try {
         const createdUser = await dbConnect.collection('users').insertOne(user);
-        const { _id, loggedInAs } = createdUser.ops[0];
+        const { _id, loggedInAs, isBanned } = createdUser.ops[0];
         console.log(createdUser)
         const accessToken = jwt.sign(
             {
                 _id,
                 name,
                 loggedInAs,
+                isBanned,
             },
             process.env.JWT_SECRET,
             );

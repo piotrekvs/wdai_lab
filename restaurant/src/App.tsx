@@ -38,6 +38,7 @@ export class App extends React.Component<Props, State> {
                     name: '',
                     email: '',
                     loggedInAs: 'guest',
+                    isBanned: true,
                 },
                 signIn: this.signIn,
                 signOut: this.signOut,
@@ -71,7 +72,12 @@ export class App extends React.Component<Props, State> {
             authContext: {
                 ...s.authContext,
                 user: {
-                    isLoggedIn: false, _id: '', name: '', email: '', loggedInAs: 'guest',
+                    isLoggedIn: false,
+                    _id: '',
+                    name: '',
+                    email: '',
+                    loggedInAs: 'guest',
+                    isBanned: true,
                 },
             },
         }));

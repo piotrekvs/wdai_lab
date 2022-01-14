@@ -4,6 +4,7 @@ export type User = {
     name: string;
     email: string;
     loggedInAs: 'guest' | 'customer' | 'manager' | 'admin';
+    isBanned: boolean;
     [key: string]: string | boolean;
 };
 

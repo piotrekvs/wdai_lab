@@ -13,7 +13,7 @@ export const validateEmail = (val: string): boolean => {
 };
 
 export const validatePassword = (val1: string, val2: string): boolean => {
-    if (/^[A-Za-z0-9!@#$%^&*();:<>?]+$/.test(val1)
+    if (/^[A-Za-z0-9!@#$%^&*();.:<>?]+$/.test(val1)
         && val1.length >= 8 && val1.length < 30 && val1 === val2) {
         return true;
     }

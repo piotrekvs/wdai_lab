@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 import { TextReview } from '../../Types/Types';
+import { useAuth } from '../../Utils/AuthContext';
 import DishStarsReview from '../DishStarsReview/DishStarsReview';
 import {
     validateNick, validateName, validatePurchaseDate, validateStars, validateText,
@@ -27,6 +28,7 @@ type State = {
 };
 
 const AddDishReview: React.FC<Props> = (props: Props) => {
+    const authContext = useAuth();
     const [reviewForm, setReviewForm] = useState<State['reviewForm']>(() => ({
         _id: '',
         dishId: props.dishId,
@@ -153,7 +155,12 @@ const AddDishReview: React.FC<Props> = (props: Props) => {
                 </Form.Control.Feedback>
             </Form.Floating>
             <div className="d-flex justify-content-end">
-                <Button onClick={handleAddDishReview}>Dodaj opinię</Button>
+                <Button
+                    disabled={authContext.user.isBanned}
+                    onClick={handleAddDishReview}
+                >
+                    Dodaj opinię
+                </Button>
             </div>
         </Form>
     );
