@@ -69,10 +69,7 @@ export class MenuPages extends React.Component<Props, State> {
                     path="/cart"
                     element={(
                         <RequireAuth customer>
-                            <CartPage
-                                cartContent={this.state.cartContent}
-                                onAddToCart={this.handleAddToCart}
-                            />
+                            <CartPage cartContent={this.state.cartContent} />
                         </RequireAuth>
                     )}
                 />
