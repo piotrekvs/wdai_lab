@@ -2,7 +2,6 @@ import React from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import DishCardInCart from '../../../Components/ProductCard/DishCardInCart';
 import { CartContent } from '../../../Types/Types';
-import './CartPage.css';
 
 type Props = {
     cartContent: CartContent[];

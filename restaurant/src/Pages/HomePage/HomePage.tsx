@@ -4,7 +4,6 @@ import React from 'react';
 import {
     Col, Container, ListGroup, Row,
 } from 'react-bootstrap';
-import './HomePage.css';
 
 const MenuPage = () => (
     <Container className="d-grid">

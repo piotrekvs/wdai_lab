@@ -12,6 +12,7 @@ import DishCard from '../../../Components/ProductCard/DishCard';
 import {
     CartContent, Dish, DishReview, TextReview,
 } from '../../../Types/Types';
+import { useAuth } from '../../../Utils/AuthContext';
 import './ProductPage.css';
 
 const getReviews = (dishId: Dish['id']) => axios({
@@ -40,6 +41,7 @@ type State = {
 }
 
 const ProductPage: React.FC<Props> = (props: Props) => {
+    const authContext = useAuth();
     const location = useLocation();
     const { dish } = location.state as LocationState;
     const [dishReviews, setDishReviews] = useState<State['review']>(() => ({
@@ -138,7 +140,8 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                         </div>
                     </Container>
 
-                    <AddDishReview onAddReview={handleAddReview} dishId={dish.id} />
+                    {!authContext.user.isBanned
+                    && <AddDishReview onAddReview={handleAddReview} dishId={dish.id} />}
 
                     <ListGroup variant="flush">
                         {dishReviews.reviews.map((r) => (
