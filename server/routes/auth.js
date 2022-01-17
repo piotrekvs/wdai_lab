@@ -101,14 +101,20 @@ router.get('/restaurant_wdai/auth/modify', async (_req, res) => {
 // 
 // Modify user permissions
 router.post('/restaurant_wdai/auth/modify', async (_req, res) => {
-    const { isBanned, loggedInAs } = _req.body;
     const dbConnect = dbo.getDb();
+    let { isBanned, loggedInAs } = _req.body;
+    if (loggedInAs !== 'customer') {
+        isBanned = false;
+    }
+    if (_req.user.email === _req.body.email) {
+        res.status(403).send('Cannot change users own permissions');
+    }
     try {
         console.log('Permissions');
         dbConnect
             .collection('users')
             .updateOne(
-                { email: _req.user.email },
+                { email: _req.body.email },
                 { $set: {isBanned, loggedInAs} }
             );
         res.status(204).send();

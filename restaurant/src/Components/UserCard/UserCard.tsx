@@ -18,6 +18,7 @@ type Props = {
     user: UserManagement;
     allDisabled: boolean;
     isMe: boolean;
+    onChange: (_id: User['_id'], isBanned: boolean, loggedInAs: User['loggedInAs']) => void;
 }
 
 const UserCard: React.FC<Props> = (props: Props) => {
@@ -25,9 +26,21 @@ const UserCard: React.FC<Props> = (props: Props) => {
     const [loggedInAs, setLoggedInAs] = useState<User['loggedInAs']>(props.user.loggedInAs);
     const roles: User['loggedInAs'][] = ['customer', 'manager', 'admin'];
 
+    const handleLoggedInAsChange = (val: User['loggedInAs']) => {
+        setLoggedInAs(val);
+        if (val !== 'customer') {
+            setBanned(false);
+        }
+    };
+
     const handleSubmit = async () => {
-        const res = await modifyUser(props.user.email, banned, loggedInAs);
-        console.log(res);
+        try {
+            await modifyUser(props.user.email, banned, loggedInAs);
+            props.onChange(props.user._id, banned, loggedInAs);
+        } catch (e) {
+            setBanned(props.user.isBanned);
+            setLoggedInAs(props.user.loggedInAs);
+        }
     };
 
     return (
@@ -54,16 +67,17 @@ const UserCard: React.FC<Props> = (props: Props) => {
                     <Form.Label>User role:</Form.Label>
                     <Form.Select
                         value={loggedInAs}
-                        onChange={(val) => setLoggedInAs(
-                            val.currentTarget.value as User['loggedInAs'],
-                        )}
+                        onChange={(val) => (
+                            handleLoggedInAsChange(val.currentTarget.value as User['loggedInAs']))}
                         disabled={props.allDisabled}
                     >
                         {roles.map((val) => <option key={val} value={val}>{val}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <Button
-                    disabled={props.allDisabled}
+                    disabled={props.allDisabled || (
+                        banned === props.user.isBanned && loggedInAs === props.user.loggedInAs
+                    )}
                     onClick={handleSubmit}
                 >
                     Save

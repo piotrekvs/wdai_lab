@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Accordion, Container } from 'react-bootstrap';
 import UserCard from '../../Components/UserCard/UserCard';
-import { UserManagement } from '../../Types/Types';
+import { User, UserManagement } from '../../Types/Types';
 import { useAuth } from '../../Utils/AuthContext';
 
 type Props = {};
@@ -32,8 +32,17 @@ const ManageUsersPage: React.FC<Props> = () => {
         fetchUsers();
     }, []);
 
+    const handleChange = (_id: User['_id'], isBanned: boolean, loggedInAs: User['loggedInAs']) => {
+        setUsers((s) => {
+            const newUsers = [...s];
+            const userIdx = s.findIndex((val) => (val._id === _id));
+            newUsers[userIdx] = { ...s[userIdx], isBanned, loggedInAs };
+            return (newUsers);
+        });
+    };
+
     return (
-        <Container>
+        <Container className="position-relative">
             <h1>Users Management System</h1>
             <Accordion>
                 <UserCard
@@ -41,6 +50,7 @@ const ManageUsersPage: React.FC<Props> = () => {
                     user={authContext.user}
                     allDisabled
                     isMe
+                    onChange={() => undefined}
                 />
                 {users.map((user) => (
                     <UserCard
@@ -48,6 +58,7 @@ const ManageUsersPage: React.FC<Props> = () => {
                         user={user}
                         allDisabled={false}
                         isMe={false}
+                        onChange={handleChange}
                     />
                 ))}
             </Accordion>
