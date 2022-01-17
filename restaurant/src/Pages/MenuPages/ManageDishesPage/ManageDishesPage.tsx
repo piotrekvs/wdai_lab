@@ -21,7 +21,7 @@ const getDishes = (offset: number, limit: number) => axios({
 });
 
 const deleteDish = (id: Dish['id']) => axios({
-    url: `/restaurant_wdai/dishes/${id}`,
+    url: `/restaurant_wdai/dishes/modify/${id}`,
     method: 'delete',
 });
 

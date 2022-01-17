@@ -14,13 +14,13 @@ import {
 } from './AddDishInputValidation';
 
 const addNewDish = (newDish: Dish) => axios({
-    url: '/restaurant_wdai/dishes',
+    url: '/restaurant_wdai/dishes/modify/',
     method: 'post',
     data: newDish,
 });
 
 const deleteDish = (id: Dish['id']) => axios({
-    url: `/restaurant_wdai/dishes/${id}`,
+    url: `/restaurant_wdai/dishes/modify/${id}`,
     method: 'delete',
 });
 

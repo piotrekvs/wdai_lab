@@ -31,7 +31,7 @@ const DishCardEdit: React.FC<Props> = (props: Props) => {
                 <BsXLg size={24} />
             </Button>
             <Link
-                to={`product/${props.dish.id}`}
+                to={`/menu/product/${props.dish.id}`}
                 state={{ dish: props.dish }}
             >
                 <Card.Img
