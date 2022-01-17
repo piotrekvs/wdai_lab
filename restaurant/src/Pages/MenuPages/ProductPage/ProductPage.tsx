@@ -21,7 +21,7 @@ const getReviews = (dishId: Dish['id']) => axios({
 });
 
 const addReview = (review: TextReview) => axios({
-    url: '/restaurant_wdai/reviews',
+    url: '/restaurant_wdai/review/new',
     method: 'post',
     data: review,
 });

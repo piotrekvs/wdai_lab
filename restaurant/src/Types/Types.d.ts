@@ -8,6 +8,15 @@ export type User = {
     [key: string]: string | boolean;
 };
 
+export type UserManagement = {
+    _id: User['_id'];
+    email: User['email'];
+    name: User['name'];
+    loggedInAs: 'guest' | 'customer' | 'manager' | 'admin';
+    isBanned: boolean;
+    [key: string]: string | boolean;
+};
+
 interface IAuthContext {
     user: User;
     signIn: (jwtToken: string, callback?: VoidFunction) => void;

@@ -3,6 +3,7 @@ const router = express.Router();
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken')
 const dbo = require('../db/conn');
+const { authMiddleware } = require('../middleware/authMiddleware');
 
 router.post('/restaurant_wdai/auth/signin', async (_req, res) => {
     const dbConnect = dbo.getDb();
@@ -73,7 +74,45 @@ router.post('/restaurant_wdai/auth/signup', async (_req, res) => {
             );
             console.log('Account created')
             res.json({ token: accessToken });
-        } catch (e) {
+    } catch (e) {
+        res.status(400).json({ errors: e });
+    }
+});
+
+router.use('/restaurant_wdai/auth/modify', authMiddleware(false, false, true));
+router.get('/restaurant_wdai/auth/modify', async (_req, res) => {
+    const dbConnect = dbo.getDb();
+    dbConnect.collection('users').find().toArray(function (err, result) {
+        if (err) {
+            res.status(404).send('Error fetching listings! Not Found.');
+        } else {
+            result = result.map((val) => ({
+                _id: val._id, 
+                email: val.email, 
+                name: val.name,
+                isBanned: val.isBanned,
+                loggedInAs: val.loggedInAs,
+            }));
+            res.json({users: result });
+        }
+    });
+})
+
+// 
+// Modify user permissions
+router.post('/restaurant_wdai/auth/modify', async (_req, res) => {
+    const { isBanned, loggedInAs } = _req.body;
+    const dbConnect = dbo.getDb();
+    try {
+        console.log('Permissions');
+        dbConnect
+            .collection('users')
+            .updateOne(
+                { email: _req.user.email },
+                { $set: {isBanned, loggedInAs} }
+            );
+        res.status(204).send();
+    } catch (e) {
         res.status(400).json({ errors: e });
     }
 });

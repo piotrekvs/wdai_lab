@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const { authMiddleware } = require('../middleware/authMiddleware')
 // Connect to database
 const dbo = require('../db/conn');
 
@@ -53,7 +53,8 @@ router.route('/restaurant_wdai/dishes/:id').get(async function (_req, res) {
 });
 
 // Delete dish by id
-router.route('/restaurant_wdai/dishes/:id').delete((_req, res) => {
+router.use('/restaurant_wdai/dishes/modify/:id', authMiddleware(false, true, true));
+router.route('/restaurant_wdai/dishes/modify/:id').delete((_req, res) => {
   const dbConnect = dbo.getDb();
   let filter = { id: _req.params.id };
 
@@ -70,7 +71,8 @@ router.route('/restaurant_wdai/dishes/:id').delete((_req, res) => {
 });
 
 // Post new dish
-router.route('/restaurant_wdai/dishes/').post(function (_req, res) {
+router.use('/restaurant_wdai/dishes/modify', authMiddleware(false, true, true));
+router.route('/restaurant_wdai/dishes/modify').post(function (_req, res) {
 const dbConnect = dbo.getDb();
   const matchDocument = {
     id: _req.body.id,
@@ -103,6 +105,7 @@ const dbConnect = dbo.getDb();
 // 
 // REVIEWS
 // Get Reviews
+router.use('/restaurant_wdai/reviews', authMiddleware(true, true, true));
 router.route('/restaurant_wdai/reviews').get(async function (_req, res) {
   const dbConnect = dbo.getDb();
   let dishId;
@@ -125,8 +128,13 @@ router.route('/restaurant_wdai/reviews').get(async function (_req, res) {
 });
 
 // Post review
-router.route('/restaurant_wdai/reviews').post(function (_req, res) {
+router.use('/restaurant_wdai/dishes/new', authMiddleware(true, true, true));
+router.route('/restaurant_wdai/reviews/new').post(async (_req, res) => {
   const dbConnect = dbo.getDb();
+  if (_req.user.isBanned) {
+      res.status(403).send('Error user is banned!');
+  }
+
   const matchDocument = {
     dishId: _req.body.dishId,
     id: _req.body.id,
@@ -139,14 +147,14 @@ router.route('/restaurant_wdai/reviews').post(function (_req, res) {
 
   dbConnect
   .collection('reviews')
-    .insertOne(matchDocument, function (err, result) {
-      if (err) {
-        res.status(400).send('Error inserting matches!');
-      } else {
-        console.log(`Added a new review with id ${result.insertedId}`);
-        res.status(204).send();
-      }
-    });
+  .insertOne(matchDocument, function (err, result) {
+    if (err) {
+      res.status(400).send('Error inserting matches!');
+    } else {
+      console.log(`Added a new review with id ${result.insertedId}`);
+      res.status(204).send();
+    }
+  });
 });
 
 
