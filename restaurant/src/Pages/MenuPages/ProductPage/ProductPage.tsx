@@ -141,7 +141,13 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                     </Container>
 
                     {!authContext.user.isBanned
-                    && <AddDishReview onAddReview={handleAddReview} dishId={dish.id} />}
+                    && (
+                        <AddDishReview
+                            onAddReview={handleAddReview}
+                            dishId={dish.id}
+                            isDisabled={findOrderedQuantity(dish.id) === 0}
+                        />
+                    )}
 
                     <ListGroup variant="flush">
                         {dishReviews.reviews.map((r) => (

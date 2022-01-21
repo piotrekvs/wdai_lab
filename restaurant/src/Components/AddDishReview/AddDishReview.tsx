@@ -14,6 +14,7 @@ type Props = {
     // eslint-disable-next-line react/no-unused-prop-types
     onAddReview: (newReview: TextReview) => void;
     dishId: string;
+    isDisabled: boolean;
 };
 
 type State = {
@@ -156,7 +157,7 @@ const AddDishReview: React.FC<Props> = (props: Props) => {
             </Form.Floating>
             <div className="d-flex justify-content-end">
                 <Button
-                    disabled={authContext.user.isBanned}
+                    disabled={authContext.user.isBanned || props.isDisabled}
                     onClick={handleAddDishReview}
                 >
                     Dodaj opinię
