@@ -145,7 +145,8 @@ const ProductPage: React.FC<Props> = (props: Props) => {
                         <AddDishReview
                             onAddReview={handleAddReview}
                             dishId={dish.id}
-                            isDisabled={findOrderedQuantity(dish.id) === 0}
+                            isDisabled={authContext.user.loggedInAs === 'customer'
+                                && findOrderedQuantity(dish.id) === 0}
                         />
                     )}
 
